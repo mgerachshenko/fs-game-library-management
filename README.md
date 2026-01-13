@@ -1,6 +1,6 @@
 # Project: Steam Library Clone
 
-## Team: [Team Null]
+## Team: Team Null
 
 -   \*\*Member 1: Dara (Role: Integration & Docs)
 -   \*\*Member 2: Lance (Role: Component A)
