@@ -13,7 +13,7 @@ function FeaturedGames() {
     { id: 3, title: "Pokemon Platinum", image: "/PP.png" },
     { id: 4, title: "Super Mario 64", image: "/SM64.jpg" },
     { id: 5, title: "Goldeneye", image: "/Goldeneye.jpg" },
-    { id: 5, title: "Super Mario World", image: "/SMW.png" },
+    { id: 6, title: "Super Mario World", image: "/SMW.png" },
   ];
 
   return (
