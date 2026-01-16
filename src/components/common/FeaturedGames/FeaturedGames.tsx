@@ -20,7 +20,7 @@ function FeaturedGames() {
     <section className="featured-games">
       <h2>Featured Games</h2>
 
-      <ul className="featured-games-list">
+      <ul className="featured-games-list" tabIndex={0}>
         {featuredGames.map((game) => (
           <li key={game.id} className="featured-game-card">
             <img src={game.image} alt={game.title} />
