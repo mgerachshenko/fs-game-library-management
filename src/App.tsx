@@ -1,9 +1,13 @@
-import "./App.css";
-import FeaturedGames from "./components/FeaturedGames/FeaturedGames";
-
+import Nav from "./components/common/nav/Nav";
+import FeaturedGames from "./components/common/FeaturedGames/FeaturedGames";
+ 
 function App() {
-  return <FeaturedGames />;
-}
-
-
-export default App;
+  return (
+    <>
+      <Nav />
+      <FeaturedGames />
+    </>
+  );
+};
+ 
+export default App
