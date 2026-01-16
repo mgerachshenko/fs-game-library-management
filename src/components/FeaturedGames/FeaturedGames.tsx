@@ -6,7 +6,7 @@ type FeaturedGame = {
   image: string;
 };
 
-export default function FeaturedGames() {
+function FeaturedGames() {
   const featuredGames: FeaturedGame[] = [
     { id: 1, title: "EarthBound", image: "/EB.jpg" },
     { id: 2, title: "The Legend of Zelda", image: "/LOZOOT.jpg" },
@@ -31,3 +31,5 @@ export default function FeaturedGames() {
     </section>
   );
 }
+
+export default FeaturedGames;
