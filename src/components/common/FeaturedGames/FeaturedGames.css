@@ -1,0 +1,39 @@
+.featured-games {
+  padding: 1rem;
+  background-color: #001540;
+  color: #ffffff;
+}
+
+.featured-games-list {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden; /* Doesn't scroll up/down */
+  list-style: none;
+  padding: 0.5rem 1rem;
+  margin: 0;
+}
+
+.featured-game-card {
+  background-color: #001c57;
+  border-radius: 6px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 180px; /* Caps size of game card */
+  overflow: hidden;
+}
+
+.featured-game-card img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.game-title {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.2;   /* Adjusts title spacing */
+  text-align: center;
+}

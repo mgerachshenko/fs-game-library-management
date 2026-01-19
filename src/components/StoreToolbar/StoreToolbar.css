@@ -1,0 +1,157 @@
+.store-toolbar {
+    background: #0f172a;
+    color: #f8fafc;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.store-toolbar__inner {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+.store-toolbar__menus {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.store-toolbar__menu {
+    position: relative;
+}
+
+.store-toolbar__trigger {
+    background: #111827;
+    color: #f8fafc;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.store-toolbar__trigger:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+.store-toolbar__value {
+    font-weight: 700;
+}
+
+.store-toolbar__chevron {
+    margin-left: 2px;
+}
+
+.store-toolbar__dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 220px;
+    background: #0b1220;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 6px;
+    list-style: none;
+    margin: 0;
+    z-index: 10;
+}
+
+.store-toolbar__item {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    color: #f8fafc;
+    border: 0;
+    border-radius: 10px;
+    padding: 10px;
+    font: inherit;
+    cursor: pointer;
+}
+
+.store-toolbar__item:hover,
+.store-toolbar__item:focus-visible {
+    background: #1f2937;
+    outline: none;
+}
+
+.store-toolbar__search {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex: 0 0 auto;
+}
+
+.store-toolbar__search-input {
+    background: #ffffff;
+    color: #0b1220;
+    border: 1px solid #cbd5e1;
+    border-right: 0;
+    border-radius: 10px 0 0 10px;
+    padding: 8px 10px;
+    font: inherit;
+    width: 260px;
+    min-width: 220px;
+}
+
+.store-toolbar__search-input:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+.store-toolbar__search-button {
+    background: #2563eb;
+    color: #ffffff;
+    border: 1px solid #1d4ed8;
+    border-left: 0;
+    border-radius: 0 10px 10px 0;
+    padding: 8px 12px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.store-toolbar__search-button:hover {
+    filter: brightness(1.05);
+}
+
+.store-toolbar__search-button:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+.store-toolbar__status {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #334155;
+}
+
+.store-toolbar__status-line {
+    margin: 4px 0;
+}
+
+.store-toolbar__muted {
+    opacity: 0.8;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
