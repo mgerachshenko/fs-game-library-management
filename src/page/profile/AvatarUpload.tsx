@@ -46,10 +46,7 @@ export default function AvatarUpload({
     return (
         <section aria-label="Avatar upload" className="avatar-upload">
             <div className="avatar-upload__row">
-                <div
-                    className="avatar-upload__preview"
-                    aria-label="Avatar preview"
-                >
+                <div className="avatar-upload__preview">
                     {avatarUrl ? (
                         <img
                             className="avatar-upload__img"
