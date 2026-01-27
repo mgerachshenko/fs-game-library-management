@@ -1,10 +1,11 @@
 import "./Nav.css";
+import { NavLink } from "react-router-dom";
 
 function Nav() {
     const tabs = [
-        { tab: "STORE", href: "#" },
-        { tab: "LIBRARY", href: "#" },
-        { tab: "PROFILE", href: "#" }
+        { tab: "STORE", href: "/store" },
+        { tab: "LIBRARY", href: "/library" },
+        { tab: "PROFILE", href: "/profile" }
     ];
 
     return (
@@ -12,7 +13,9 @@ function Nav() {
             <div className="page-links">
                 {tabs.map((tab, index) => (
                     <span key={index}>
-                        <a href={tab.href}>{tab.tab}</a>
+                        <NavLink to={tab.href}>
+                            {tab.tab}
+                        </NavLink>
                     </span>
                 ))}
             </div>
