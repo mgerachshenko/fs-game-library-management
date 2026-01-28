@@ -1,4 +1,5 @@
 import "./FeaturedGames.css";
+import React from "react";
 import { useState } from "react";
 
 type FeaturedGame = {
@@ -46,6 +47,19 @@ function FeaturedGames() {
     { id: 5, title: "Goldeneye", image: "/Goldeneye.jpg" },
     { id: 6, title: "Super Mario World", image: "/SMW.png" },
   ];
+
+  /** Toggle for review box */
+  function toggleReview(gameId: number) {
+    setOpenReview((prev) => {
+      const isOpen = prev[gameId];
+
+      if (isOpen) {
+        return { ...prev, [gameId]: false };
+      }
+
+      return { ...prev, [gameId]: true };
+    });
+  }
 
   return (
     <section className="featured-games">
