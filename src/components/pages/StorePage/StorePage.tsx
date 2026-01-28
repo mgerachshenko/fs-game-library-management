@@ -1,4 +1,4 @@
-import FeaturedGames from "../common/FeaturedGames/FeaturedGames";
+import FeaturedGames from "./FeaturedGames/FeaturedGames";
 
 function StorePage() {
     return (

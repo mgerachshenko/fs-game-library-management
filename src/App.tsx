@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Nav from "./components/common/nav/Nav";
-import StoreToolbar from "./components/StoreToolbar/StoreToolbar";
-import StorePage from "./components/pages/StorePage";
+import StoreToolbar from "./components/pages/StorePage/StoreToolbar/StoreToolbar";
+import StorePage from "./components/pages/StorePage/StorePage";
 import LibraryPage from "./components/pages/LibraryPage";
 import ProfilePage from "./components/pages/ProfilePage";
 
