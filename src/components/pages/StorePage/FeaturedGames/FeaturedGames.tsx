@@ -23,17 +23,19 @@ function ReviewForm({ value, onChange, onSubmit }: ReviewFormProps) {
       <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Write Your Review!"
+        placeholder="Write Your Review Here!"
       />
       <div className="review-form-footer">
         <button type="submit" disabled={trimmed.length === 0}>
-          Add review
+          Add review!
         </button>
       </div>
     </form>
   );
 }
 
+/** Displays featured games at the front top of the page 
+ *  and allows users to add and remove reviews */
 function FeaturedGames() {
   const [draftReviews, setDraftReviews] = useState<{ [id: number]: string }>({});
   const [reviewsByGame, setReviewsByGame] = useState<{ [id: number]: string[]}>({});
@@ -46,6 +48,7 @@ function FeaturedGames() {
     { id: 4, title: "Super Mario 64", image: "/SM64.jpg" },
     { id: 5, title: "Goldeneye", image: "/Goldeneye.jpg" },
     { id: 6, title: "Super Mario World", image: "/SMW.png" },
+    { id: 7, title: "Pokemon Emerald", image: "/PE.png" },
   ];
 
   /** Toggle for review box */
