@@ -1,4 +1,5 @@
 import "./FeaturedGames.css";
+import { useState } from "react";
 
 type FeaturedGame = {
   id: number;
@@ -6,7 +7,16 @@ type FeaturedGame = {
   image: string;
 };
 
+type ReviewFormProps = {
+  value: string;
+  onChange: (value: string) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+};
+
 function FeaturedGames() {
+  const [draftReviews, setDraftReviews] = useState<{ [id: number]: string }>({});
+  const [reviewsByGame, setReviewsByGame] = useState<{ [id: number]: string[]}>({});
+  const [openReview, setOpenReview] = useState<{ [id: number]: boolean }>({});
   const featuredGames: FeaturedGame[] = [
     { id: 1, title: "EarthBound", image: "/EB.jpg" },
     { id: 2, title: "The Legend of Zelda", image: "/LOZOOT.jpg" },
