@@ -15,6 +15,9 @@ function App() {
         <>
             <header>
                 <h1>Steam Library Clone</h1>
+                <div className="app-user">
+                    <span className="app-user__name">{displayName}</span>
+                </div>
             </header>
 
             <main>
@@ -24,15 +27,20 @@ function App() {
                     <Route path="/" element={<StorePage />} />
                     <Route path="/store" element={<StorePage />} />
                     <Route path="/library" element={<LibraryPage />} />
-                    <Route path="/profile" element={<ProfilePage
-                                    name="{Dara W}"
-                                    displayName={displayName}
-                                    setDisplayName={setDisplayName}
-                                    bio={bio}
-                                    setBio={setBio}
-                                    avatarUrl={avatarUrl}
-                                    setAvatarUrl={setAvatarUrl}
-                                />} />
+                    <Route
+                        path="/profile"
+                        element={
+                            <ProfilePage
+                                name="{Dara W}"
+                                displayName={displayName}
+                                setDisplayName={setDisplayName}
+                                bio={bio}
+                                setBio={setBio}
+                                avatarUrl={avatarUrl}
+                                setAvatarUrl={setAvatarUrl}
+                            />
+                        }
+                    />
                 </Routes>
             </main>
 
