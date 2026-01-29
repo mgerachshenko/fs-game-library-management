@@ -5,13 +5,6 @@ body {
     margin: 0.3em;
     padding: 0.3em;
     line-height: 1.6;
-  
-font-family: 'Press Start 2P', cursive;
-  background-color: #001540;
-  color: #ffffff;
-  margin: 0.3em;
-  padding: 0.3em;
-  line-height: 1.6;
 }
 
 main {
@@ -25,6 +18,26 @@ h2,
 h3 {
     color: #b8b8b8;
     margin-bottom: 0.5em;
+}
+
+#root > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 75%;
+    margin: auto;
+    padding: 0.5em 0;
+}
+
+.app-user {
+    font-size: 0.7em;
+    color: #b8b8b8;
+}
+
+.app-user__name {
+    padding: 0.3em 0.6em;
+    border: 1px solid #4a4a4a;
+    background-color: #303336;
 }
 
 a {

@@ -13,7 +13,7 @@ function App() {
 
     return (
         <>
-            <header className="app-header">
+            <header>
                 <h1>Steam Library Clone</h1>
                 <div className="app-user">
                     <span className="app-user__name">{displayName}</span>
