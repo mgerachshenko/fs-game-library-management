@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LibraryList from "./LibraryList";
 import LibrarySearch from "./LibrarySearch";
+import "./LibraryPage.css";
 
 export type Game = {
     id: number;
@@ -18,23 +19,26 @@ const gameList: Game[] = [
     { id: 7, title: "Pokemon Emerald", image: "/PE.png" },
 ];
 
-function LibraryPage() {
+export default function LibraryPage() {
     const [searchFilter, setSearchFilter] = useState("");
-    const [games, setGames] = useState<string[]>([]);
+    const [games, setGames] = useState<Game[]>(gameList);
+
     return (
-        <>
+        <div>
             <h2>Library Page</h2>
-            <LibrarySearch
-                searchFilter={searchFilter}
-                setSearchFilter={setSearchFilter}
-            />
-            <LibraryList 
-                games={games} 
-                setGames={setGames} 
-                searchFilter={searchFilter}
-            />
-        </>
+            <div className="library-page">
+                <h2>Owned Games</h2>
+                <LibrarySearch
+                    searchFilter={searchFilter}
+                    setSearchFilter={setSearchFilter}
+                />
+                <LibraryList
+                    games={games}
+                    setGames={setGames}
+                    searchFilter={searchFilter}
+                />
+            </div>
+        </div>
     );
 }
 
-export default LibraryPage;

@@ -1,0 +1,65 @@
+.library-page {
+  padding: 1rem;
+  background-color: #001540;
+  color: #ffffff;
+  font-family: "Press Start 2P", cursive;
+}
+
+.library-grid {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden; 
+  list-style: none;
+  padding: 0.5rem 1rem;
+  margin: 0;
+}
+
+.library-card {
+  background-color: #001c57;
+  border-radius: 6px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 180px; 
+  overflow: hidden;
+  align-items: center;
+  color: #ffffff;
+}
+
+.library-card img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.game-title {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.library-card button {
+  font-family: "Press Start 2P", cursive;
+  background-color: #299cdf;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+input,
+textarea {
+  font-family: "Press Start 2P", cursive;
+  resize: none;
+  border-radius: 6px;
+  border: none;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  outline-offset: 2px;
+  outline-color: #299cdf;
+}

@@ -3,13 +3,16 @@ interface mySearch {
     setSearchFilter: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function LibrarySearch({ searchFilter, setSearchFilter}: mySearch) {
+export default function LibrarySearch({ searchFilter, setSearchFilter }: mySearch) {
     return (
-        <input 
-            type="text"
-            placeholder="Enter your game name"
-            value={searchFilter}
-            onChange={(e) => setSearchFilter(e.target.value)}
-        />
+        <div className="library-search">
+            <input
+                type="text"
+                placeholder="Enter game name"
+                value={searchFilter}
+                onChange={(e) => setSearchFilter(e.target.value)}
+            />
+        </div>
     );
 }
+
