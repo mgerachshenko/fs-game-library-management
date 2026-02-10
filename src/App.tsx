@@ -1,10 +1,9 @@
 import { Routes, Route } from "react-router-dom";
-import Nav from "./components/common/nav/Nav";
-import StoreToolbar from "./components/pages/StorePage/StoreToolbar/StoreToolbar";
 import StorePage from "./components/pages/StorePage/StorePage";
 import LibraryPage from "./components/pages/LibraryPage/LibraryPage";
 import ProfilePage from "./components/pages/ProfilePage/ProfilePage";
 import { useState } from "react";
+import { Layout } from "./components/layout/Layout";
 
 function App() {
     const [displayName, setDisplayName] = useState("PlayerOne");
@@ -21,32 +20,28 @@ function App() {
             </header>
 
             <main>
-                <Nav />
-                <StoreToolbar />
                 <Routes>
-                    <Route path="/" element={<StorePage />} />
-                    <Route path="/store" element={<StorePage />} />
-                    <Route path="/library" element={<LibraryPage />} />
-                    <Route
-                        path="/profile"
-                        element={
-                            <ProfilePage
-                                name="{Dara W}"
-                                displayName={displayName}
-                                setDisplayName={setDisplayName}
-                                bio={bio}
-                                setBio={setBio}
-                                avatarUrl={avatarUrl}
-                                setAvatarUrl={setAvatarUrl}
-                            />
-                        }
-                    />
+                    <Route path="/" element={<Layout />}>
+                        <Route index element={<StorePage />} />
+                        <Route path="/store" element={<StorePage />} />
+                        <Route path="/library" element={<LibraryPage />} />
+                        <Route
+                            path="/profile"
+                            element={
+                                <ProfilePage
+                                    name="{Dara W}"
+                                    displayName={displayName}
+                                    setDisplayName={setDisplayName}
+                                    bio={bio}
+                                    setBio={setBio}
+                                    avatarUrl={avatarUrl}
+                                    setAvatarUrl={setAvatarUrl}
+                                />
+                            }
+                        />
+                    </Route>
                 </Routes>
             </main>
-
-            <footer>
-                <p>Team Null: Dara, Mikhail, Lance</p>
-            </footer>
         </>
     );
 }
