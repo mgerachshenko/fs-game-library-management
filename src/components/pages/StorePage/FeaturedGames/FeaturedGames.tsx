@@ -1,12 +1,7 @@
 import "./FeaturedGames.css";
 import React from "react";
 import { useState } from "react";
-
-type FeaturedGame = {
-  id: number;
-  title: string;
-  image: string;
-};
+import { gameList as featuredGames} from "../../../../apis/mockGameData";
 
 type ReviewFormProps = {
   value: string;
@@ -49,16 +44,6 @@ function FeaturedGames({
 }: FeaturedGamesProps) {
   const [draftReviews, setDraftReviews] = useState<{ [id: number]: string }>({});
   const [openReview, setOpenReview] = useState<{ [id: number]: boolean }>({});
-
-  const featuredGames: FeaturedGame[] = [
-    { id: 1, title: "EarthBound", image: "/EB.jpg" },
-    { id: 2, title: "The Legend of Zelda", image: "/LOZOOT.jpg" },
-    { id: 3, title: "Pokemon Platinum", image: "/PP.png" },
-    { id: 4, title: "Super Mario 64", image: "/SM64.jpg" },
-    { id: 5, title: "Goldeneye", image: "/Goldeneye.jpg" },
-    { id: 6, title: "Super Mario World", image: "/SMW.png" },
-    { id: 7, title: "Pokemon Emerald", image: "/PE.png" },
-  ];
 
   /** Toggle for review box */
   function toggleReview(gameId: number) {
