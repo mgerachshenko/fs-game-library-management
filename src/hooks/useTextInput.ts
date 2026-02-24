@@ -1,4 +1,5 @@
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
+import type { ChangeEvent } from "react";
 
 // hook for text inputs that keeps track of the current value
 export function useTextInput(initialValue: string = "") {
