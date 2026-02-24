@@ -1,5 +1,6 @@
 import { useId, useMemo, useState } from "react";
 import "./StoreToolbar.css";
+import { useTextInput } from "../../../../hooks/useTextInput"; 
 
 type MenuItem = {
     id: string;
@@ -38,7 +39,7 @@ export default function StoreToolbar() {
         categoryItems[0],
     );
 
-    const [query, setQuery] = useState("");
+    const searchInput = useTextInput(""); 
     const [lastSearch, setLastSearch] = useState<string | null>(null);
 
     const uid = useId();
@@ -53,17 +54,17 @@ export default function StoreToolbar() {
 
     function toggleBrowse() {
         setBrowseOpen((prev) => {
-            const next = !prev;
-            if (next) setCategoriesOpen(false);
-            return next;
+        const next = !prev;
+        if (next) setCategoriesOpen(false);
+        return next;
         });
     }
 
     function toggleCategories() {
         setCategoriesOpen((prev) => {
-            const next = !prev;
-            if (next) setBrowseOpen(false);
-            return next;
+        const next = !prev;
+        if (next) setBrowseOpen(false);
+        return next;
         });
     }
 
@@ -79,7 +80,7 @@ export default function StoreToolbar() {
 
     function handleSearchSubmit(e: React.FormEvent) {
         e.preventDefault();
-        const trimmed = query.trim();
+        const trimmed = searchInput.value.trim();
         setLastSearch(trimmed.length > 0 ? trimmed : null);
         closeAllMenus();
     }
@@ -190,8 +191,8 @@ export default function StoreToolbar() {
                         id={searchInputId}
                         className="store-toolbar__search-input"
                         type="search"
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
+                        value={searchInput.value}
+                        onChange={searchInput.handleChange}
                         placeholder="Search"
                         onFocus={closeAllMenus}
                     />

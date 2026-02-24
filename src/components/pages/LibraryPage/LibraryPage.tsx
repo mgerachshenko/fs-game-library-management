@@ -4,9 +4,10 @@ import LibrarySearch from "./LibrarySearch";
 import "./LibraryPage.css";
 import { gameList } from "../../../apis/mockGameData";
 import type { Game } from "../../../types/game";
+import { useTextInput } from "../../../hooks/useTextInput"; 
 
 export default function LibraryPage() {
-    const [searchFilter, setSearchFilter] = useState("");
+    const searchInput = useTextInput("");
     const [games, setGames] = useState<Game[]>(gameList);
 
     return (
@@ -15,13 +16,13 @@ export default function LibraryPage() {
             <div className="library-page">
                 <h2>Owned Games</h2>
                 <LibrarySearch
-                    searchFilter={searchFilter}
-                    setSearchFilter={setSearchFilter}
+                    searchFilter={searchInput.value}    
+                    setSearchFilter={searchInput.setValue} 
                 />
                 <LibraryList
                     games={games}
                     setGames={setGames}
-                    searchFilter={searchFilter}
+                    searchFilter={searchInput.value} 
                 />
             </div>
         </div>
