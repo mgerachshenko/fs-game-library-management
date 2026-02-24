@@ -1,4 +1,4 @@
-import type { Game } from "./LibraryPage";
+import type { Game } from "../../../types/game";
 
 interface gameSearchProps {
     games: Game[];
