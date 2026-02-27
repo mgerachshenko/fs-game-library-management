@@ -5,5 +5,4 @@ export type UserProfile = {
     bio: string;
     avatarUrl: string | null;
     updatedAt: string;
-    saveProfile: string;
 };
