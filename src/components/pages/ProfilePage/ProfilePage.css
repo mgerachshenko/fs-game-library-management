@@ -174,21 +174,3 @@
     display: flex;
     gap: 1em;
 }
-
-.profile__button {
-    background-color: #303336;
-    border: 1px solid #4a4a4a;
-    color: #ffffff;
-    padding: 0.5em 1em;
-    font-family: inherit;
-    cursor: pointer;
-}
-
-.profile__button:hover {
-    background-color: #3a3d40;
-}
-
-.profile__button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}

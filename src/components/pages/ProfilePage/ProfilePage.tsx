@@ -122,7 +122,7 @@ export default function ProfilePage() {
                             />
                         </div>
 
-                        <div>
+                        <div className="profile__actions">
                             <button
                                 type="button"
                                 onClick={handleSave}
