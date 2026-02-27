@@ -1,33 +1,25 @@
-import { useId } from "react";
+import { useContext, useId } from "react";
 import AvatarUpload from "./AvatarUpload";
 import "./ProfilePage.css";
+import { ProfileContext } from "../../../context/ProfileContext";
 
-export type ProfilePageProps = {
-    // Name is not editable
-    name: string;
+export default function ProfilePage() {
+    const context = useContext(ProfileContext);
 
-    // Display name is editable, and planning use this
-    displayName: string;
-    setDisplayName: (value: string) => void;
+    if (!context) {
+        throw new Error("ProfilePage must be used inside ProfileProvider");
+    }
 
-    // Bio is editable
-    bio: string;
-    setBio: (value: string) => void;
+    const {
+        profile,
+        displayName,
+        setDisplayName,
+        bio,
+        setBio,
+        avatarUrl,
+        setAvatarUrl,
+    } = context;
 
-    // Avatar is editable
-    avatarUrl: string | null;
-    setAvatarUrl: (value: string | null) => void;
-};
-
-export default function ProfilePage({
-    name,
-    displayName,
-    setDisplayName,
-    bio,
-    setBio,
-    avatarUrl,
-    setAvatarUrl,
-}: ProfilePageProps) {
     const uid = useId();
     const displayNameId = `displayName-${uid}`;
     const bioId = `bio-${uid}`;
@@ -47,12 +39,12 @@ export default function ProfilePage({
                     <h3 className="profile__card-title">Preview</h3>
 
                     <div className="profile__preview">
-                        <div className="profile__avatar-box" aria-hidden="true">
+                        <div className="profile__avatar-box">
                             {avatarUrl ? (
                                 <img
                                     className="profile__avatar-img"
                                     src={avatarUrl}
-                                    alt="profile__avatar-img"
+                                    alt="User avatar"
                                 />
                             ) : (
                                 <div className="profile__avatar-placeholder">
@@ -62,19 +54,19 @@ export default function ProfilePage({
                         </div>
 
                         <div className="profile__preview-text">
-                            <p className="profile__name">
+                            <p>
                                 <span className="profile__label">Name:</span>{" "}
-                                {name}
+                                {profile.name}
                             </p>
 
-                            <p className="profile__display-name">
+                            <p>
                                 <span className="profile__label">
                                     Display name:
                                 </span>{" "}
                                 {displayName.trim() ? displayName : "—"}
                             </p>
 
-                            <p className="profile__bio">
+                            <p>
                                 <span className="profile__label">Bio:</span>{" "}
                                 {bio.trim() ? bio : "—"}
                             </p>
@@ -86,27 +78,19 @@ export default function ProfilePage({
                 <div className="profile__card" aria-label="Profile editor">
                     <h3 className="profile__card-title">Edit</h3>
 
-                    {/* I.3: avatar add/remove */}
                     <AvatarUpload
                         avatarUrl={avatarUrl}
                         onChangeAvatarUrl={setAvatarUrl}
                     />
 
-                    {/* I.2: form inputs update state in real time */}
-                    <form className="profile__form" aria-label="Profile form">
+                    <form className="profile__form">
                         <div className="profile__field">
-                            <label
-                                className="profile__field-label"
-                                htmlFor={displayNameId}
-                            >
-                                Display name
-                            </label>
+                            <label htmlFor={displayNameId}>Display name</label>
                             <input
                                 id={displayNameId}
                                 type="text"
                                 value={displayName}
                                 onChange={(e) => setDisplayName(e.target.value)}
-                                placeholder="e.g., Dara"
                             />
                             {displayNameTooShort && (
                                 <p className="profile__error" role="alert">
@@ -117,17 +101,11 @@ export default function ProfilePage({
                         </div>
 
                         <div className="profile__field">
-                            <label
-                                className="profile__field-label"
-                                htmlFor={bioId}
-                            >
-                                Bio
-                            </label>
+                            <label htmlFor={bioId}>Bio</label>
                             <textarea
                                 id={bioId}
                                 value={bio}
                                 onChange={(e) => setBio(e.target.value)}
-                                placeholder="Write a short bio..."
                                 rows={4}
                             />
                         </div>
