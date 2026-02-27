@@ -168,3 +168,9 @@
     white-space: nowrap;
     box-sizing: border-box;
 }
+
+.profile__actions {
+    margin-top: 1em;
+    display: flex;
+    gap: 1em;
+}
