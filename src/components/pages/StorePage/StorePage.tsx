@@ -1,3 +1,9 @@
+/**
+ * I.3 Explanation Block
+ * This component should only be rendering and not working with the data logic.
+ * It uses the useGames hook which connects to the service
+ * and repo layers.
+ */
 import { useState } from "react";
 import FeaturedGames from "./FeaturedGames/FeaturedGames";
 import StoreToolbar from "./StoreToolbar/StoreToolbar";

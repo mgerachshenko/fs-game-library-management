@@ -1,3 +1,10 @@
+/**
+ * I.3 Explanation Block
+ * The repo handles the data access so the UI and services
+ * don’t actually directly work with the raw data.
+ * It stores the test data and provides methods like getAll and remove
+ * that other layers can call.
+ */
 import type { Game } from "../types/game";
 import { gameList } from "../apis/mockGameData";
 

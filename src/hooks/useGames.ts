@@ -1,3 +1,9 @@
+/**
+ * I.3 Explanation Block
+ * The hook lets multiple pages reuse the same game logic.
+ * It calls the service functions and updates React state
+ * with the returned results.
+ */
 import { useState } from "react";
 import type { Game } from "../types/game";
 import { getAllGames, getGamesBySearch } from "../services/gameService";
