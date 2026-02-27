@@ -2,6 +2,7 @@ import { useContext, useId, useState, useEffect } from "react";
 import AvatarUpload from "./AvatarUpload";
 import "./ProfilePage.css";
 import { ProfileContext } from "../../../context/ProfileContext";
+import { generalInputService } from "../../../services/inputService";
 
 export default function ProfilePage() {
     const context = useContext(ProfileContext);
@@ -17,6 +18,8 @@ export default function ProfilePage() {
     );
     const [draftBio, setDraftBio] = useState(profile.bio);
     const [draftAvatarUrl, setDraftAvatarUrl] = useState(profile.avatarUrl);
+    const bioValidation = generalInputService(draftBio);
+    const bioTooShort = draftBio.trim().length > 0 && !bioValidation.isValid;
 
     useEffect(() => {
         setDraftDisplayName(profile.displayName);
@@ -32,7 +35,8 @@ export default function ProfilePage() {
         draftDisplayName.trim().length > 0 &&
         draftDisplayName.trim().length < 2;
 
-    const canSave = draftDisplayName.trim().length >= 2;
+    const canSave =
+        draftDisplayName.trim().length >= 2 && bioValidation.isValid;
 
     function handleSave() {
         saveProfile({
@@ -120,6 +124,11 @@ export default function ProfilePage() {
                                 value={draftBio}
                                 onChange={(e) => setDraftBio(e.target.value)}
                             />
+                            {bioTooShort && (
+                                <p className="profile__error">
+                                    Bio must be at least 3 characters.
+                                </p>
+                            )}
                         </div>
 
                         <div className="profile__actions">

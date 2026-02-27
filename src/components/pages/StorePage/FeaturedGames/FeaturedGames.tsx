@@ -1,183 +1,197 @@
 /**
  * Lance's I.3 Explanation Block
- * This component properly implements the hook 
+ * This component properly implements the hook
  * because this is where all games are then displayed from the given props
- * including the function for toggling game ownership when clicking a button by having 
- * FeaturedGameProps interface so that FeaturedGames is aware of what type of data it is going to receive
+ * including the function for toggling game ownership when clicking a button
  */
 
 import "./FeaturedGames.css";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import type { Game } from "../../../../types/game";
+import { generalInputService } from "../../../../services/inputService";
 
 type ReviewFormProps = {
-  value: string;
-  onChange: (value: string) => void;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+    value: string;
+    onChange: (value: string) => void;
+    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
 type FeaturedGamesProps = {
-  games: Game[];
-  toggleOwnedGame: (id: number) => Promise<void>;
-  reviewsByGame: { [id: number]: string[] };
-  setReviewsByGame: React.Dispatch<
-    React.SetStateAction<{ [id: number]: string[] }>
-  >;
+    games: Game[];
+    toggleOwnedGame: (id: number) => Promise<void>;
+    reviewsByGame: { [id: number]: string[] };
+    setReviewsByGame: React.Dispatch<
+        React.SetStateAction<{ [id: number]: string[] }>
+    >;
 };
 
-/** Form for adding the game review. */
+/** Review Form Component */
 function ReviewForm({ value, onChange, onSubmit }: ReviewFormProps) {
-  const trimmed = value.trim();
+    const validation = generalInputService(value);
 
-  return (
-    <form className="review-form" onSubmit={onSubmit}>
-      <textarea
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="Write Here"
-      />
-      <div className="review-form-footer">
-        <button type="submit" disabled={trimmed.length === 0}>
-          Add review!
-        </button>
-      </div>
-    </form>
-  );
+    const showError = value.trim().length > 0 && !validation.isValid;
+
+    return (
+        <form className="review-form" onSubmit={onSubmit}>
+            <textarea
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                placeholder="Write Here"
+            />
+
+            {showError && (
+                <p className="review-error">{validation.errors[0]}</p>
+            )}
+
+            <div className="review-form-footer">
+                <button type="submit" disabled={!validation.isValid}>
+                    Add review!
+                </button>
+            </div>
+        </form>
+    );
 }
 
-/** Displays featured games at the front top of the page 
- *  and allows users to add and remove reviews */
+/** Displays featured games */
 function FeaturedGames({
-  games,
-  toggleOwnedGame,
-  reviewsByGame,
-  setReviewsByGame,
+    games,
+    toggleOwnedGame,
+    reviewsByGame,
+    setReviewsByGame,
 }: FeaturedGamesProps) {
-  const [draftReviews, setDraftReviews] = useState<{ [id: number]: string }>({});
-  const [openReview, setOpenReview] = useState<{ [id: number]: boolean }>({});
+    const [draftReviews, setDraftReviews] = useState<{ [id: number]: string }>(
+        {},
+    );
+    const [openReview, setOpenReview] = useState<{ [id: number]: boolean }>({});
 
-  /** Toggle for review box */
-  function toggleReview(gameId: number) {
-    setOpenReview((prev) => {
-      const isOpen = prev[gameId];
-
-      if (isOpen) {
-        return { ...prev, [gameId]: false };
-      }
-
-      return { ...prev, [gameId]: true };
-    });
-  }
-
-  /** Updates current review for a specific game as the user types */
-  function handleDraftChange(gameId: number, text: string) {
-    setDraftReviews((prev) => {
-      return {
-        ...prev,
-        [gameId]: text,
-      };
-    });
-  }
-
-  /** Adds a review for a specific game when the form is submitted */
-  function handleAddReview(
-    gameId: number,
-    e: React.FormEvent<HTMLFormElement>,
-  ) {
-    e.preventDefault();
-
-    const currentDraft = draftReviews[gameId];
-    const trimmedText = currentDraft ? currentDraft.trim() : "";
-
-    if (trimmedText.length === 0) {
-      return;
+    /** Toggle review box */
+    function toggleReview(gameId: number) {
+        setOpenReview((prev) => ({
+            ...prev,
+            [gameId]: !prev[gameId],
+        }));
     }
 
-    setReviewsByGame((prev) => {
-      const existingReviews = prev[gameId] || [];
+    /** Update draft review text */
+    function handleDraftChange(gameId: number, text: string) {
+        setDraftReviews((prev) => ({
+            ...prev,
+            [gameId]: text,
+        }));
+    }
 
-      return {
-        ...prev,
-        [gameId]: [...existingReviews, trimmedText],
-      };
-    });
+    /** Add review */
+    function handleAddReview(
+        gameId: number,
+        e: React.FormEvent<HTMLFormElement>,
+    ) {
+        e.preventDefault();
 
-    setDraftReviews((prev) => {
-      return { ...prev, [gameId]: "" };
-    });
+        const currentDraft = draftReviews[gameId] || "";
+        const validation = generalInputService(currentDraft);
 
-    setOpenReview((prev) => {
-      return { ...prev, [gameId]: false };
-    });
-  }
+        if (!validation.isValid) {
+            return;
+        }
 
-  /** Removes one review from a game by index */
-  function handleRemoveReview(gameId: number, index: number) {
-    setReviewsByGame((prev) => ({
-      ...prev,
-      [gameId]: prev[gameId].filter((_, i) => i !== index),
-    }));
-  }
+        const trimmedText = currentDraft.trim();
 
-  return (
-  <section className="featured-games">
-    <h2>Featured Games</h2>
+        setReviewsByGame((prev) => {
+            const existingReviews = prev[gameId] || [];
+            return {
+                ...prev,
+                [gameId]: [...existingReviews, trimmedText],
+            };
+        });
 
-    <ul className="featured-games-list" tabIndex={0}>
-      {games.map((game) => {
-        const draft = draftReviews[game.id] || "";
-        const reviews = reviewsByGame[game.id] || [];
-        const isOpen = openReview[game.id];
+        setDraftReviews((prev) => ({
+            ...prev,
+            [gameId]: "",
+        }));
 
-        return (
-          <li key={game.id} className="featured-game-card">
-            <img src={game.image} alt={game.title} />
-            <span className="game-title">{game.title}</span>
+        setOpenReview((prev) => ({
+            ...prev,
+            [gameId]: false,
+        }));
+    }
 
-            <div className="card-actions">
-              <button onClick={() => toggleOwnedGame(game.id)}>
-                {game.isOwned ? "Remove" : "Add"}
-              </button>
+    /** Remove review */
+    function handleRemoveReview(gameId: number, index: number) {
+        setReviewsByGame((prev) => ({
+            ...prev,
+            [gameId]: prev[gameId].filter((_, i) => i !== index),
+        }));
+    }
 
-              <button
-                type="button"
-                className="review-button"
-                onClick={() => toggleReview(game.id)}
-              >
-                {isOpen ? "Cancel" : "Write Review!"}
-              </button>
-            </div>
+    return (
+        <section className="featured-games">
+            <h2>Featured Games</h2>
 
-            {isOpen && (
-              <ReviewForm
-                value={draft}
-                onChange={(text) => handleDraftChange(game.id, text)}
-                onSubmit={(e) => handleAddReview(game.id, e)}
-              />
-            )}
+            <ul className="featured-games-list" tabIndex={0}>
+                {games.map((game) => {
+                    const draft = draftReviews[game.id] || "";
+                    const reviews = reviewsByGame[game.id] || [];
+                    const isOpen = openReview[game.id];
 
-            {reviews.length > 0 && (
-              <ul className="game-reviews">
-                {reviews.map((review, index) => (
-                  <li key={index} className="game-review">
-                    <p>{review}</p>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveReview(game.id, index)}
-                    >
-                      Remove
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        );
-      })}
-    </ul>
-  </section>
-);
+                    return (
+                        <li key={game.id} className="featured-game-card">
+                            <img src={game.image} alt={game.title} />
+                            <span className="game-title">{game.title}</span>
+
+                            <div className="card-actions">
+                                <button
+                                    onClick={() => toggleOwnedGame(game.id)}
+                                >
+                                    {game.isOwned ? "Remove" : "Add"}
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className="review-button"
+                                    onClick={() => toggleReview(game.id)}
+                                >
+                                    {isOpen ? "Cancel" : "Write Review!"}
+                                </button>
+                            </div>
+
+                            {isOpen && (
+                                <ReviewForm
+                                    value={draft}
+                                    onChange={(text) =>
+                                        handleDraftChange(game.id, text)
+                                    }
+                                    onSubmit={(e) =>
+                                        handleAddReview(game.id, e)
+                                    }
+                                />
+                            )}
+
+                            {reviews.length > 0 && (
+                                <ul className="game-reviews">
+                                    {reviews.map((review, index) => (
+                                        <li key={index} className="game-review">
+                                            <p>{review}</p>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    handleRemoveReview(
+                                                        game.id,
+                                                        index,
+                                                    )
+                                                }
+                                            >
+                                                Remove
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </li>
+                    );
+                })}
+            </ul>
+        </section>
+    );
 }
 
 export default FeaturedGames;
