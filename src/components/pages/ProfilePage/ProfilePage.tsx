@@ -1,4 +1,4 @@
-import { useContext, useId } from "react";
+import { useContext, useId, useState, useEffect } from "react";
 import AvatarUpload from "./AvatarUpload";
 import "./ProfilePage.css";
 import { ProfileContext } from "../../../context/ProfileContext";
@@ -10,40 +10,60 @@ export default function ProfilePage() {
         throw new Error("ProfilePage must be used inside ProfileProvider");
     }
 
-    const {
-        profile,
-        displayName,
-        setDisplayName,
-        bio,
-        setBio,
-        avatarUrl,
-        setAvatarUrl,
-    } = context;
+    const { profile, saveProfile } = context;
+
+    const [draftDisplayName, setDraftDisplayName] = useState(
+        profile.displayName,
+    );
+    const [draftBio, setDraftBio] = useState(profile.bio);
+    const [draftAvatarUrl, setDraftAvatarUrl] = useState(profile.avatarUrl);
+
+    useEffect(() => {
+        setDraftDisplayName(profile.displayName);
+        setDraftBio(profile.bio);
+        setDraftAvatarUrl(profile.avatarUrl);
+    }, [profile]);
 
     const uid = useId();
     const displayNameId = `displayName-${uid}`;
     const bioId = `bio-${uid}`;
 
     const displayNameTooShort =
-        displayName.trim().length > 0 && displayName.trim().length < 2;
+        draftDisplayName.trim().length > 0 &&
+        draftDisplayName.trim().length < 2;
+
+    const canSave = draftDisplayName.trim().length >= 2;
+
+    function handleSave() {
+        saveProfile({
+            displayName: draftDisplayName,
+            bio: draftBio,
+            avatarUrl: draftAvatarUrl,
+        });
+    }
+
+    function handleCancel() {
+        setDraftDisplayName(profile.displayName);
+        setDraftBio(profile.bio);
+        setDraftAvatarUrl(profile.avatarUrl);
+    }
 
     return (
-        <section className="profile" aria-label="Profile page">
+        <section className="profile">
             <header className="profile__header">
                 <h2 className="profile__title">Profile</h2>
             </header>
 
             <div className="profile__grid">
-                {/* Left: preview */}
-                <div className="profile__card" aria-label="Profile preview">
-                    <h3 className="profile__card-title">Preview</h3>
+                <div className="profile__card">
+                    <h3>Preview</h3>
 
                     <div className="profile__preview">
                         <div className="profile__avatar-box">
-                            {avatarUrl ? (
+                            {profile.avatarUrl ? (
                                 <img
                                     className="profile__avatar-img"
-                                    src={avatarUrl}
+                                    src={profile.avatarUrl}
                                     alt="User avatar"
                                 />
                             ) : (
@@ -53,63 +73,69 @@ export default function ProfilePage() {
                             )}
                         </div>
 
-                        <div className="profile__preview-text">
+                        <div>
                             <p>
-                                <span className="profile__label">Name:</span>{" "}
-                                {profile.name}
+                                <strong>Name:</strong> {profile.name}
                             </p>
-
                             <p>
-                                <span className="profile__label">
-                                    Display name:
-                                </span>{" "}
-                                {displayName.trim() ? displayName : "—"}
+                                <strong>Display name:</strong>{" "}
+                                {profile.displayName}
                             </p>
-
                             <p>
-                                <span className="profile__label">Bio:</span>{" "}
-                                {bio.trim() ? bio : "—"}
+                                <strong>Bio:</strong> {profile.bio}
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* Right: edit controls */}
-                <div className="profile__card" aria-label="Profile editor">
-                    <h3 className="profile__card-title">Edit</h3>
+                <div className="profile__card">
+                    <h3>Edit</h3>
 
                     <AvatarUpload
-                        avatarUrl={avatarUrl}
-                        onChangeAvatarUrl={setAvatarUrl}
+                        avatarUrl={draftAvatarUrl}
+                        onChangeAvatarUrl={setDraftAvatarUrl}
                     />
 
-                    <form className="profile__form">
-                        <div className="profile__field">
+                    <div className="profile__form">
+                        <div>
                             <label htmlFor={displayNameId}>Display name</label>
                             <input
                                 id={displayNameId}
-                                type="text"
-                                value={displayName}
-                                onChange={(e) => setDisplayName(e.target.value)}
+                                value={draftDisplayName}
+                                onChange={(e) =>
+                                    setDraftDisplayName(e.target.value)
+                                }
                             />
                             {displayNameTooShort && (
-                                <p className="profile__error" role="alert">
-                                    Display name should be at least 2
-                                    characters.
+                                <p className="profile__error">
+                                    Display name must be at least 2 characters.
                                 </p>
                             )}
                         </div>
 
-                        <div className="profile__field">
+                        <div>
                             <label htmlFor={bioId}>Bio</label>
                             <textarea
                                 id={bioId}
-                                value={bio}
-                                onChange={(e) => setBio(e.target.value)}
-                                rows={4}
+                                value={draftBio}
+                                onChange={(e) => setDraftBio(e.target.value)}
                             />
                         </div>
-                    </form>
+
+                        <div>
+                            <button
+                                type="button"
+                                onClick={handleSave}
+                                disabled={!canSave}
+                            >
+                                Save
+                            </button>
+
+                            <button type="button" onClick={handleCancel}>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
