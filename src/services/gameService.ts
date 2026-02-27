@@ -11,15 +11,7 @@
  * that decides which function to use based on the isOwned boolean where the change is shown to be
  * reflected in the repo
  */
-/**
- * I.3 Explanation Block
- * The service works with business rules like searching and validation
- * so that the components themselves don't have to actually contain the filtering logic.
- * It receives the search input then it validates it, filters the games,
- * and then returns the results.
- */
-
-import * as GameRepo from "../repositories/GameRepo";
+import * as GameRepo from "../repositories/gameRepo";
 import { searchService } from "./searchService";
 import type { Game } from "../types/game";
 
