@@ -22,9 +22,10 @@ export function getGamesBySearch(
         const matchesTitle =
             game.title.toLowerCase().includes(normalizedQuery);
 
-        const matchesCategory = category
-            ? game.category.toLowerCase() === category.toLowerCase()
-            : true;
+        const matchesCategory =
+            !category ||
+            category.toLowerCase() === "all" ||
+            game.category.toLowerCase() === category.toLowerCase();
 
         return matchesTitle && matchesCategory;
     });

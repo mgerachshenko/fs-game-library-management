@@ -16,13 +16,18 @@ export function searchService(
     }
 
     if (category) {
-        const categoryExists = gameList.some(
-            game => game.category.toLowerCase() === category.toLowerCase()
-        );
+        const normalizedCategory = category.toLowerCase();
 
-        if (!categoryExists) {
-            isValid = false;
-            errors.push("Category doe not exist.");
+        if (normalizedCategory !== "all") {
+            const categoryExists = gameList.some(
+                (game) =>
+                    game.category.toLowerCase() === normalizedCategory,
+            );
+
+            if (!categoryExists) {
+                isValid = false;
+                errors.push("Category does not exist.");
+            }
         }
     }
 

@@ -14,6 +14,7 @@ type StoreToolbarProps = {
 export default function StoreToolbar({ onSearch }: StoreToolbarProps) {
     const categoryItems: MenuItem[] = useMemo(
         () => [
+            { id: "all", label: "ALL" },
             { id: "rpg", label: "RPG" },
             { id: "adventure", label: "ADVENTURE" },
             { id: "platformer", label: "PLATFORMER" },
