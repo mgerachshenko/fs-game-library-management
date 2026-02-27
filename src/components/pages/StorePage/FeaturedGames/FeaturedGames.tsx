@@ -1,7 +1,14 @@
 import "./FeaturedGames.css";
 import React from "react";
 import { useState } from "react";
-import { gameList as featuredGames} from "../../../../apis/mockGameData";
+import type { Game } from "../../../../types/game";
+
+/**
+ * This component properly implements the hook 
+ * because this is where all games are then displayed from the given props
+ * including the function for toggling game ownership when clicking a button by having 
+ * FeaturedGameProps interface so that FeaturedGames is aware of what type of data it is going to receive
+ */
 
 type ReviewFormProps = {
   value: string;
@@ -10,6 +17,8 @@ type ReviewFormProps = {
 };
 
 type FeaturedGamesProps = {
+  games: Game[];
+  toggleOwnedGame: (id: number) => Promise<void>;
   reviewsByGame: { [id: number]: string[] };
   setReviewsByGame: React.Dispatch<
     React.SetStateAction<{ [id: number]: string[] }>
@@ -39,6 +48,8 @@ function ReviewForm({ value, onChange, onSubmit }: ReviewFormProps) {
 /** Displays featured games at the front top of the page 
  *  and allows users to add and remove reviews */
 function FeaturedGames({
+  games,
+  toggleOwnedGame,
   reviewsByGame,
   setReviewsByGame,
 }: FeaturedGamesProps) {
@@ -109,19 +120,24 @@ function FeaturedGames({
   }
 
   return (
-    <section className="featured-games">
-      <h2>Featured Games</h2>
+  <section className="featured-games">
+    <h2>Featured Games</h2>
 
-      <ul className="featured-games-list" tabIndex={0}>
-        {featuredGames.map((game) => {
-          const draft = draftReviews[game.id] || "";
-          const reviews = reviewsByGame[game.id] || [];
-          const isOpen = openReview[game.id];
+    <ul className="featured-games-list" tabIndex={0}>
+      {games.map((game) => {
+        const draft = draftReviews[game.id] || "";
+        const reviews = reviewsByGame[game.id] || [];
+        const isOpen = openReview[game.id];
 
-          return (
-            <li key={game.id} className="featured-game-card">
-              <img src={game.image} alt={game.title} />
-              <span className="game-title">{game.title}</span>
+        return (
+          <li key={game.id} className="featured-game-card">
+            <img src={game.image} alt={game.title} />
+            <span className="game-title">{game.title}</span>
+
+            <div className="card-actions">
+              <button onClick={() => toggleOwnedGame(game.id)}>
+                {game.isOwned ? "Remove" : "Add"}
+              </button>
 
               <button
                 type="button"
@@ -130,38 +146,37 @@ function FeaturedGames({
               >
                 {isOpen ? "Cancel" : "Write Review!"}
               </button>
+            </div>
 
-              {isOpen && (
-                <ReviewForm
-                  value={draft}
-                  onChange={(text) => handleDraftChange(game.id, text)}
-                  onSubmit={(e) => handleAddReview(game.id, e)}
-                />
-              )}
+            {isOpen && (
+              <ReviewForm
+                value={draft}
+                onChange={(text) => handleDraftChange(game.id, text)}
+                onSubmit={(e) => handleAddReview(game.id, e)}
+              />
+            )}
 
-              {reviews.length > 0 && (
-                <ul className="game-reviews">
-                  {reviews.map((review, index) => (
-                    <li key={index} className="game-review">
-                      <p>{review}</p>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          handleRemoveReview(game.id, index)
-                        }
-                      >
-                        Remove
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    </section>
-  );
+            {reviews.length > 0 && (
+              <ul className="game-reviews">
+                {reviews.map((review, index) => (
+                  <li key={index} className="game-review">
+                    <p>{review}</p>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveReview(game.id, index)}
+                    >
+                      Remove
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+);
 }
 
 export default FeaturedGames;
