@@ -3,4 +3,5 @@ export type Game = {
     title: string;
     image: string;
     category: string;
+    isOwned: boolean;
 };

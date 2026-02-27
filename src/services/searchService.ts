@@ -22,7 +22,7 @@ export function searchService(
 
         if (!categoryExists) {
             isValid = false;
-            errors.push("Category doe not exist.");
+            errors.push("Category does not exist.");
         }
     }
 
