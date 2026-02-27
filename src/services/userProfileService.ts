@@ -15,7 +15,13 @@ export class UserProfileService {
     }
 
     updateDisplayName(id: string, value: string) {
-        return this.repo.update(id, { displayName: value });
+        const trimmed = value.trim();
+
+        if (trimmed.length < 2) {
+            return undefined;
+        }
+
+        return this.repo.update(id, { displayName: trimmed });
     }
 
     updateBio(id: string, bio: string): UserProfile | undefined {
