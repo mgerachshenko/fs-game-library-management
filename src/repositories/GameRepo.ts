@@ -1,0 +1,26 @@
+import type { Game } from "../types/game";
+import { gameList } from "../apis/mockGameData";
+
+const games: Game[] = [...gameList];
+
+export const gameRepository = {
+  getAll(): Game[] {
+    return [...games];
+  },
+
+  getById(id: number): Game | undefined {
+    return games.find((game) => game.id === id);
+  },
+
+  add(game: Game): void {
+    games.push(game);
+  },
+
+  remove(id: number): void {
+    const index = games.findIndex((game) => game.id === id);
+
+    if (index !== -1) {
+      games.splice(index, 1);
+    }
+  },
+};
