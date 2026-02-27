@@ -12,5 +12,9 @@ export function useGames() {
     setErrors(result.errors);
   }
 
-  return { games, errors, search };
+  function removeGame(id: number) {
+    setGames((prevGames) => prevGames.filter((game) => game.id !== id));
+  }
+
+  return { games, errors, search, removeGame };
 }
