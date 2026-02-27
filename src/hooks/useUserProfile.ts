@@ -22,6 +22,33 @@ export function useUserProfile(userId: string) {
         if (updated) setProfile(updated);
     }
 
+    function saveProfile(patch: Partial<UserProfile>) {
+        let updated = profile;
+
+        if (patch.displayName !== undefined) {
+            const result = userProfileService.updateDisplayName(
+                userId,
+                patch.displayName,
+            );
+            if (result) updated = result;
+        }
+
+        if (patch.bio !== undefined) {
+            const result = userProfileService.updateBio(userId, patch.bio);
+            if (result) updated = result;
+        }
+
+        if (patch.avatarUrl !== undefined) {
+            const result = userProfileService.updateAvatar(
+                userId,
+                patch.avatarUrl,
+            );
+            if (result) updated = result;
+        }
+
+        setProfile(updated);
+    }
+
     return {
         profile,
         displayName: profile.displayName,
@@ -30,5 +57,6 @@ export function useUserProfile(userId: string) {
         setDisplayName: updateDisplayName,
         setBio: updateBio,
         setAvatarUrl: updateAvatar,
+        saveProfile,
     };
 }

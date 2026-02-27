@@ -1,102 +1,108 @@
 .featured-games {
-  padding: 1rem;
-  background-color: #001540;
-  color: #ffffff;
-  border-radius: 12px;
+    padding: 1rem;
+    background-color: #001540;
+    color: #ffffff;
+    border-radius: 12px;
 }
 
 .featured-games-list {
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-  overflow-y: hidden; /* Doesn't scroll up/down */
-  list-style: none;
-  padding: 0.5rem 1rem;
-  margin: 0;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden; /* Doesn't scroll up/down */
+    list-style: none;
+    padding: 0.5rem 1rem;
+    margin: 0;
 }
 
 .featured-game-card {
-  background-color: #001c57;
-  border-radius: 6px;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 180px; /* Caps size of game card */
-  overflow: hidden;
-  align-items: center;
+    background-color: #001c57;
+    border-radius: 6px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 180px; /* Caps size of game card */
+    overflow: hidden;
+    align-items: center;
 }
 
 .featured-game-card img {
-  width: 100%;
-  aspect-ratio: 2 / 3;
-  object-fit: cover;
-  border-radius: 4px;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 .game-title {
-  margin-top: 0.5rem;
-  font-size: 0.95rem;
-  line-height: 1.2;   /* Adjusts title spacing */
-  text-align: center;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.2; /* Adjusts title spacing */
+    text-align: center;
 }
 
 .featured-game-card button,
 .review-form button {
-  font-family: "Press Start 2P", cursive;
+    font-family: "Press Start 2P", cursive;
 }
 
 .review-button {
-  margin-top: auto;
+    margin-top: auto;
 }
 
 button {
-  background-color: #299cdf;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  padding: 0.5rem 0.75rem;
-  cursor: pointer;
+    background-color: #299cdf;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
 }
 
 textarea,
 input {
-  font-family: "Press Start 2P", cursive;
-  resize: none;
+    font-family: "Press Start 2P", cursive;
+    resize: none;
 }
 
 .review-form {
-  width: 100%;
-  margin-top: 0.5rem;
+    width: 100%;
+    margin-top: 0.5rem;
 }
 
 .review-form textarea {
-  width: 100%;
-  box-sizing: border-box;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .review-form-footer {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .game-reviews {
-  list-style: none;
-  padding: 0;
-  margin: 0.5rem 0 0;
-  width: 100%;   
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+    width: 100%;
 }
 
 .game-review {
-  display: flex;
-  flex-direction: column;
-  align-items: center;  
-  text-align: center;   
-  margin-bottom: 0.5rem;
-  width: 100%;       
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    width: 100%;
 }
 
 .card-actions {
-  display: flex;
-  flex-direction: column; 
-  gap: 0.5rem;            
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.review-error {
+    color: #f10808;
+    font-size: 0.75em;
+    margin-top: 0.3em;
 }
