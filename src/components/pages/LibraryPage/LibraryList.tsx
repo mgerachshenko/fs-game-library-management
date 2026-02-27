@@ -2,22 +2,13 @@ import type { Game } from "../../../types/game";
 
 interface gameSearchProps {
     games: Game[];
-    searchFilter: string;
-    setGames: React.Dispatch<React.SetStateAction<Game[]>>;
+    removeGame: (id: number) => void;
 }
 
-export default function LibraryList({ games, setGames, searchFilter }: gameSearchProps) {
-    const filteredGames = games.filter((game) =>
-        game.title.toLowerCase().includes(searchFilter.toLowerCase())
-    );
-
-    function removeGame(id: number) {
-        setGames(games.filter((game) => game.id !== id));
-    }
-
+export default function LibraryList({ games, removeGame }: gameSearchProps) {
     return (
         <div className="library-grid">
-            {filteredGames.map((game) => (
+            {games.map((game) => (
                 <div key={game.id} className="library-card">
                     <img src={game.image} alt={game.title} />
                     <p>{game.title}</p>

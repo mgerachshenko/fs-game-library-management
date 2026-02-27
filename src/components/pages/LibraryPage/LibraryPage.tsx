@@ -1,28 +1,28 @@
-import { useState } from "react";
 import LibraryList from "./LibraryList";
-import LibrarySearch from "./LibrarySearch";
+import StoreToolbar from "../StorePage/StoreToolbar/StoreToolbar";
 import "./LibraryPage.css";
-import { gameList } from "../../../apis/mockGameData";
-import type { Game } from "../../../types/game";
-import { useTextInput } from "../../../hooks/useTextInput"; 
+import { useGames } from "../../../hooks/useGames";
 
 export default function LibraryPage() {
-    const searchInput = useTextInput("");
-    const [games, setGames] = useState<Game[]>(gameList);
+    const { games, search, removeGame } = useGames();
+    function handleSearch(query: string, categoryId: string) {
+        const trimmed = query.trim();
+
+        if (trimmed.length === 0) {
+            return;
+        }
+        search(trimmed, categoryId);
+    }
 
     return (
         <div>
             <h2>Library Page</h2>
             <div className="library-page">
                 <h2>Owned Games</h2>
-                <LibrarySearch
-                    searchFilter={searchInput.value}    
-                    setSearchFilter={searchInput.setValue} 
-                />
+                <StoreToolbar onSearch={handleSearch} />
                 <LibraryList
                     games={games}
-                    setGames={setGames}
-                    searchFilter={searchInput.value} 
+                    removeGame={removeGame}
                 />
             </div>
         </div>
