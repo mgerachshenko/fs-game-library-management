@@ -19,9 +19,9 @@ correctly separates from solution concerns because it doesn't have any business 
 ## inputService - Service
 1. This service is responsible for any business logic involving the validation of general input boxes used around the app
 2. I decided this logic because service are meant to only cover business logic, which in this case, is validate if the input has enough chars. It correctly separates from solution concerns because it doesn't have any data access/mutation or presentation logic, only the rules in what is the minimum number of chars in a general user input
-3. 
+3. This implementation is made use in FeaturedGames for the reviews and the display name in ProfilePage by validating user input
 
 ## searchService - Service
 1. This service is responsible for any business logic involving the validation of the search function
 2. I decided this logic because service are meant to only cover business logic, which in this case, is validate if the search has enough chars and the category is valid. It correctly separates from solution concerns because it doesn't have any data access/mutation or presentation logic, only the rules in what is the minimum number of chars in a search input and what happens if a category is included
-3. 
+3. This implementation is made use in gameService by using the imported validation function when filtering games
