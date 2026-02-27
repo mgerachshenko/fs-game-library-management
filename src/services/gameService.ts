@@ -1,11 +1,12 @@
 /**
- * I.3 Explanation Block
+ * Mikhail's I.3 Explanation Block
  * The service works with business rules like searching and validation
  * so that the components themselves don't have to actually contain the filtering logic.
  * It receives the search input then it validates it, filters the games,
  * and then returns the results.
  */
 /**
+ * Lance's I.3 Explanation Block
  * This component properly implements the gameRepo because this is where all business logic is contained
  * that involves adding or removing a game from the library by having an if statement
  * that decides which function to use based on the isOwned boolean where the change is shown to be

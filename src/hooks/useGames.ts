@@ -1,10 +1,11 @@
 /**
- * I.3 Explanation Block
+ * Mikhail's I.3 Explanation Block
  * The hook lets multiple pages reuse the same game logic.
  * It calls the service functions and updates React state
  * with the returned results.
  */
 /**
+ * Lance's I.3 Explanation Block
  * This component properly implements the service because this is where presentation logic of 
  * game and error state is all handled by fetching the games from said service
  */

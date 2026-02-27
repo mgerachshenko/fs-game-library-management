@@ -1,14 +1,15 @@
-import "./FeaturedGames.css";
-import React from "react";
-import { useState } from "react";
-import type { Game } from "../../../../types/game";
-
 /**
+ * Lance's I.3 Explanation Block
  * This component properly implements the hook 
  * because this is where all games are then displayed from the given props
  * including the function for toggling game ownership when clicking a button by having 
  * FeaturedGameProps interface so that FeaturedGames is aware of what type of data it is going to receive
  */
+
+import "./FeaturedGames.css";
+import React from "react";
+import { useState } from "react";
+import type { Game } from "../../../../types/game";
 
 type ReviewFormProps = {
   value: string;
