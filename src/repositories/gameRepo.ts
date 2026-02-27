@@ -6,7 +6,7 @@ export function fetchGames(): Game[] {
 }
 
 export function getGameById(gameId: number): Game {
-  const game = gameList.find(g => g.id === gameId);
+  const game = gameList.find((g) => g.id === gameId);
   if (!game) throw new Error("Game not found");
   return game;
 }

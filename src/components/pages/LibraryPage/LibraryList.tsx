@@ -1,11 +1,12 @@
-import type { Game } from "../../../types/game";
-
 /**
+ * Lance's I.3 Explanation Block
  * This component properly implements the hook 
  * because this is where all OWNED games are then displayed from the given props
  * including the function for toggling game ownership when clicking a button by having 
  * gameSearchProps interface so that LibraryList is aware of what type of data it is going to receive
  */
+
+import type { Game } from "../../../types/game";
 
 interface gameSearchProps {
     games: Game[];
@@ -30,4 +31,3 @@ export default function LibraryList({ games, toggleOwnedGame, searchFilter }: ga
         </div>
     );
 }
-
