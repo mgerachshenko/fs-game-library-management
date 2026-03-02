@@ -1,44 +1,40 @@
+/**
+ * Lance's I.3 Explanation Block
+ * This component properly implements the hook 
+ * because this is where all games props are loaded to be sent to library list for display
+ * by using useGames with a filter which is the ownership status of the games
+ */
+
 import { useState } from "react";
 import LibraryList from "./LibraryList";
-import LibrarySearch from "./LibrarySearch";
+import StoreToolbar from "../StorePage/StoreToolbar/StoreToolbar";
 import "./LibraryPage.css";
-
-export type Game = {
-    id: number;
-    title: string;
-    image: string;
-};
-
-const gameList: Game[] = [
-    { id: 1, title: "EarthBound", image: "/EB.jpg" },
-    { id: 2, title: "The Legend of Zelda", image: "/LOZOOT.jpg" },
-    { id: 3, title: "Pokemon Platinum", image: "/PP.png" },
-    { id: 4, title: "Super Mario 64", image: "/SM64.jpg" },
-    { id: 5, title: "Goldeneye", image: "/Goldeneye.jpg" },
-    { id: 6, title: "Super Mario World", image: "/SMW.png" },
-    { id: 7, title: "Pokemon Emerald", image: "/PE.png" },
-];
+import type { Game } from "../../../types/game";
+import { useGames } from "../../../hooks/useGames";
 
 export default function LibraryPage() {
     const [searchFilter, setSearchFilter] = useState("");
-    const [games, setGames] = useState<Game[]>(gameList);
+    const ownedGame = (g: Game) => g.isOwned;
+    const { games, error, toggleOwnedGame } = useGames([], ownedGame);
+
+    if (error) return <p>{error}</p>;
+
+    function handleSearch(query: string, _categoryId: string) {
+        setSearchFilter(query);
+    }
 
     return (
         <div>
             <h2>Library Page</h2>
             <div className="library-page">
                 <h2>Owned Games</h2>
-                <LibrarySearch
-                    searchFilter={searchFilter}
-                    setSearchFilter={setSearchFilter}
-                />
+                <StoreToolbar onSearch={handleSearch} />
                 <LibraryList
                     games={games}
-                    setGames={setGames}
                     searchFilter={searchFilter}
+                    toggleOwnedGame={toggleOwnedGame}
                 />
             </div>
         </div>
     );
 }
-

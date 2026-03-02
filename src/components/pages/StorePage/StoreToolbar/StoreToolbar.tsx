@@ -1,75 +1,46 @@
 import { useId, useMemo, useState } from "react";
 import "./StoreToolbar.css";
+import { useTextInput } from "../../../../hooks/useTextInput"; 
 
 type MenuItem = {
     id: string;
     label: string;
 };
 
-export default function StoreToolbar() {
-    const browseItems: MenuItem[] = useMemo(
-        () => [
-            { id: "SH", label: "Store Home" },
-            { id: "NR", label: "New Releases" },
-            { id: "UR", label: "Upcoming Releases" },
-            { id: "AC&S", label: "All Charts & Stats" },
-        ],
-        [],
-    );
+type StoreToolbarProps = {
+    onSearch?: (query: string, categoryId: string) => void;
+};
 
+export default function StoreToolbar({ onSearch }: StoreToolbarProps) {
     const categoryItems: MenuItem[] = useMemo(
         () => [
-            { id: "racing", label: "RACING" },
-            { id: "casual", label: "CASUAL" },
-            { id: "Anime", label: "ANIME" },
-            { id: "SR", label: "STORY-RICH" },
-            { id: "FTP", label: "FREE TO PLAY" },
+            { id: "all", label: "ALL" },
+            { id: "rpg", label: "RPG" },
+            { id: "adventure", label: "ADVENTURE" },
+            { id: "platformer", label: "PLATFORMER" },
+            { id: "shooter", label: "SHOOTER" },
         ],
         [],
     );
 
-    const [browseOpen, setBrowseOpen] = useState(false);
     const [categoriesOpen, setCategoriesOpen] = useState(false);
-
-    const [selectedBrowse, setSelectedBrowse] = useState<MenuItem>(
-        browseItems[0],
-    );
     const [selectedCategory, setSelectedCategory] = useState<MenuItem>(
         categoryItems[0],
     );
 
-    const [query, setQuery] = useState("");
+    const searchInput = useTextInput("");
     const [lastSearch, setLastSearch] = useState<string | null>(null);
 
     const uid = useId();
-    const browseMenuId = `browse-menu-${uid}`;
     const categoriesMenuId = `categories-menu-${uid}`;
     const searchInputId = `search-input-${uid}`;
 
     function closeAllMenus() {
-        setBrowseOpen(false);
         setCategoriesOpen(false);
     }
 
-    function toggleBrowse() {
-        setBrowseOpen((prev) => {
-            const next = !prev;
-            if (next) setCategoriesOpen(false);
-            return next;
-        });
-    }
-
     function toggleCategories() {
-        setCategoriesOpen((prev) => {
-            const next = !prev;
-            if (next) setBrowseOpen(false);
-            return next;
-        });
-    }
-
-    function handleSelectBrowse(item: MenuItem) {
-        setSelectedBrowse(item);
-        setBrowseOpen(false);
+        setCategoriesOpen((prev) => !prev);
     }
 
     function handleSelectCategory(item: MenuItem) {
@@ -79,8 +50,15 @@ export default function StoreToolbar() {
 
     function handleSearchSubmit(e: React.FormEvent) {
         e.preventDefault();
-        const trimmed = query.trim();
+
+        const trimmed = searchInput.value.trim();
+
         setLastSearch(trimmed.length > 0 ? trimmed : null);
+
+        if (onSearch) {
+            onSearch(trimmed, selectedCategory.id);
+        }
+
         closeAllMenus();
     }
 
@@ -88,50 +66,6 @@ export default function StoreToolbar() {
         <section className="store-toolbar" aria-label="Store toolbar">
             <div className="store-toolbar__inner">
                 <div className="store-toolbar__menus" aria-label="Store menus">
-                    {/* Browse Dropdown */}
-                    <div className="store-toolbar__menu">
-                        <button
-                            type="button"
-                            className="store-toolbar__trigger"
-                            aria-haspopup="menu"
-                            aria-expanded={browseOpen}
-                            aria-controls={browseMenuId}
-                            onClick={toggleBrowse}
-                        >
-                            Browse
-                            <span
-                                className="store-toolbar__chevron"
-                                aria-hidden="true"
-                            >
-                                ▾
-                            </span>
-                        </button>
-
-                        {browseOpen && (
-                            <ul
-                                id={browseMenuId}
-                                className="store-toolbar__dropdown"
-                                role="menu"
-                                aria-label="Browse menu"
-                            >
-                                {browseItems.map((item) => (
-                                    <li key={item.id} role="none">
-                                        <button
-                                            type="button"
-                                            role="menuitem"
-                                            className="store-toolbar__item"
-                                            onClick={() =>
-                                                handleSelectBrowse(item)
-                                            }
-                                        >
-                                            {item.label}
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
-
                     {/* Categories Dropdown */}
                     <div className="store-toolbar__menu">
                         <button
@@ -190,8 +124,8 @@ export default function StoreToolbar() {
                         id={searchInputId}
                         className="store-toolbar__search-input"
                         type="search"
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
+                        value={searchInput.value}
+                        onChange={searchInput.handleChange}
                         placeholder="Search"
                         onFocus={closeAllMenus}
                     />
@@ -214,8 +148,7 @@ export default function StoreToolbar() {
             {/* Results / status (simple, not navigation) */}
             <div className="store-toolbar__status" aria-live="polite">
                 <p className="store-toolbar__status-line">
-                    Selected: <strong>{selectedBrowse.label}</strong> /{" "}
-                    <strong>{selectedCategory.label}</strong>
+                    Category: <strong>{selectedCategory.label}</strong>
                 </p>
                 <p className="store-toolbar__status-line">
                     {lastSearch ? (

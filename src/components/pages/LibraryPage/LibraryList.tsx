@@ -1,19 +1,23 @@
-import type { Game } from "./LibraryPage";
+/**
+ * Lance's I.3 Explanation Block
+ * This component properly implements the hook 
+ * because this is where all OWNED games are then displayed from the given props
+ * including the function for toggling game ownership when clicking a button by having 
+ * gameSearchProps interface so that LibraryList is aware of what type of data it is going to receive
+ */
+
+import type { Game } from "../../../types/game";
 
 interface gameSearchProps {
     games: Game[];
     searchFilter: string;
-    setGames: React.Dispatch<React.SetStateAction<Game[]>>;
+    toggleOwnedGame: (gameId: number) => Promise<void>;
 }
 
-export default function LibraryList({ games, setGames, searchFilter }: gameSearchProps) {
+export default function LibraryList({ games, toggleOwnedGame, searchFilter }: gameSearchProps) {
     const filteredGames = games.filter((game) =>
         game.title.toLowerCase().includes(searchFilter.toLowerCase())
     );
-
-    function removeGame(id: number) {
-        setGames(games.filter((game) => game.id !== id));
-    }
 
     return (
         <div className="library-grid">
@@ -21,10 +25,9 @@ export default function LibraryList({ games, setGames, searchFilter }: gameSearc
                 <div key={game.id} className="library-card">
                     <img src={game.image} alt={game.title} />
                     <p>{game.title}</p>
-                    <button onClick={() => removeGame(game.id)}>Remove</button>
+                    <button onClick={() => toggleOwnedGame(game.id)}>Remove</button>
                 </div>
             ))}
         </div>
     );
 }
-
