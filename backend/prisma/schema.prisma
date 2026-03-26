@@ -1,0 +1,14 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model UserProfile {
+  id          Int     @id @default(autoincrement())
+  displayName String
+  bio         String?
+  avatar      String?
+}
