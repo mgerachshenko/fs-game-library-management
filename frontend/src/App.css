@@ -1,22 +1,32 @@
 body {
     font-family: "Press Start 2P", cursive;
-    background-color: #303336;
+    background-image: url("/background.gif");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: #ffffff;
-    margin: 0.3em;
-    padding: 0.3em;
+    margin: 0;
+    padding: 0;
     line-height: 1.6;
 }
 
+#root {
+    min-height: 100vh;
+    background: transparent;
+}
+
 main {
-    background-color: #303336;
+    background-color: transparent;
     max-width: 75%;
-    margin: auto;
+    margin: 0 auto;
+    width: 100%;
 }
 
 h1,
 h2,
 h3 {
-    color: #b8b8b8;
+    color: #ffffff;
     margin-bottom: 0.5em;
 }
 
@@ -27,6 +37,9 @@ h3 {
     max-width: 75%;
     margin: auto;
     padding: 0.5em 0;
+    background: transparent;
+    position: relative;
+    z-index: 1;
 }
 
 .app-user {
@@ -36,8 +49,8 @@ h3 {
 
 .app-user__name {
     padding: 0.3em 0.6em;
-    border: 1px solid #4a4a4a;
-    background-color: #303336;
+    border: 1px solid #ffffff;
+    background-color: rgba(0, 0, 0, 0.85);
 }
 
 a {
