@@ -2,17 +2,19 @@
     padding: 1em;
     display: grid;
     gap: 1.2em;
-    background-color: #303336;
+    background-color: rgba(60, 0, 90, 0.6);
+    border-radius: 12px;
+    color: #ffffff;
 }
 
 .profile__header {
     display: grid;
-    gap: 0.5em;
+    gap: 0.5rem;
 }
 
 .profile__title {
     margin: 0;
-    color: #b8b8b8;
+    color: #ffffff;
 }
 
 .profile__grid {
@@ -28,16 +30,17 @@
 }
 
 .profile__card {
-    background-color: #001540;
-    border: 1px solid #4a4a4a;
+    background-color: rgba(0, 28, 87, 0.85);
+    border-radius: 6px;
     padding: 1em;
     display: grid;
-    gap: 1em;
+    gap: 1rem;
+    color: #ffffff;
 }
 
 .profile__card-title {
     margin: 0;
-    color: #b8b8b8;
+    color: #ffffff;
 }
 
 .profile__preview {
@@ -49,7 +52,7 @@
 .profile__avatar-box {
     width: 72px;
     height: 72px;
-    background-color: #303336;
+    background-color: rgba(48, 51, 54, 0.75);
     border: 1px solid #4a4a4a;
     display: grid;
     place-items: center;
@@ -66,32 +69,27 @@
     margin: 0 0 0.4em 0;
 }
 
-.profile__label {
-    color: #b8b8b8;
-}
+
 
 .profile__form {
     display: grid;
-    gap: 0.8em;
+    gap: 0.8rem;
 }
 
 .profile__field {
     display: grid;
-    gap: 0.4em;
-}
-
-.profile__field-label {
-    font-size: 0.75em;
-    color: #b8b8b8;
+    gap: 0.4rem;
 }
 
 .profile__form input,
 .profile__form textarea {
-    background-color: #303336;
+    background-color: rgba(48, 51, 54, 0.85);
     border: 1px solid #4a4a4a;
     color: #ffffff;
-    padding: 0.6em;
+    padding: 0.6rem;
     font-family: inherit;
+    border-radius: 6px;
+    box-sizing: border-box;
 }
 
 .profile__form input::placeholder,
@@ -119,7 +117,7 @@
 .avatar-upload__preview {
     width: 64px;
     height: 64px;
-    background-color: #303336;
+    background-color: rgba(48, 51, 54, 0.75);
     border: 1px solid #4a4a4a;
     display: grid;
     place-items: center;
@@ -137,17 +135,14 @@
     gap: 0.4em;
 }
 
-.avatar-upload__label {
-    font-size: 0.75em;
-    color: #b8b8b8;
-}
-
-.avatar-upload__remove {
-    background-color: #303336;
-    border: 1px solid #4a4a4a;
+.avatar-upload__remove,
+.profile__actions button {
+    font-family: "Press Start 2P", cursive;
+    background-color: #299cdf;
     color: #ffffff;
-    padding: 0.4em 0.6em;
-    font-family: inherit;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
     cursor: pointer;
 }
 

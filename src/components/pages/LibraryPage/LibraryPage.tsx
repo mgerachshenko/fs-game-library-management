@@ -25,7 +25,7 @@ export default function LibraryPage() {
 
     return (
         <div>
-            <h2>Library Page</h2>
+            <h2>Library</h2>
             <div className="library-page">
                 <h2>Owned Games</h2>
                 <StoreToolbar onSearch={handleSearch} />
