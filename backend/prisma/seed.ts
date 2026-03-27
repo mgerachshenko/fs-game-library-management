@@ -8,7 +8,7 @@ async function main() {
     await prisma.game.deleteMany();
 
     // seeding user profiles
-    await prisma.userProfile.createMany(
+    const createdProfiles = await prisma.userProfile.createMany(
         {
             data: profileSeedData,
             skipDuplicates: true
@@ -18,11 +18,12 @@ async function main() {
     //seeding games
     const createdGames = await prisma.game.createMany(
         {
-        data: gameSeedData,
-        skipDuplicates: true
+            data: gameSeedData,
+            skipDuplicates: true
         }
     );
 
+    console.log(`CREATED PROFILES: ${createdProfiles.count}`);
     console.log(`CREATED GAMES: ${createdGames.count}`);
 }
 
