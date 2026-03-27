@@ -12,48 +12,36 @@
  * that decides which function to use based on the isOwned boolean where the change is shown to be
  * reflected in the repo
  */
-import * as GameRepo from "../repositories/gameRepo";
+import * as GameApi from "../repositories/gameRepo";
 import { searchService } from "./searchService";
 import type { Game } from "../types/game";
 
-export function getAllGames() {
-  return GameRepo.fetchGames();
+export async function getAllGames() {
+    return await GameApi.fetchGames();
 }
 
-export function getGamesBySearch(searchQuery: string, category?: string) {
-  const { isValid, errors } = searchService(searchQuery, category);
+export async function getOwnedGames() {
+    return await GameApi.fetchOwnedGames();
+}
 
-  if (!isValid) {
-    return { games: [] as Game[], errors };
-  }
+export async function getGamesBySearch(searchQuery: string, category?: string) {
+    const { isValid, errors } = searchService(searchQuery, category);
 
-  const allGames = GameRepo.fetchGames();
-  const normalizedQuery = searchQuery.trim().toLowerCase();
+    if (!isValid) {
+        return { games: [] as Game[], errors };
+    }
 
-  const filteredGames = allGames.filter((game) => {
-    const matchesTitle = game.title.toLowerCase().includes(normalizedQuery);
-
-    const matchesCategory =
-      !category ||
-      category.toLowerCase() === "all" ||
-      game.category.toLowerCase() === category.toLowerCase();
-
-    return matchesTitle && matchesCategory;
-  });
-
-  return { games: filteredGames, errors: [] as string[] };
+    return await GameApi.searchGames(searchQuery, category);
 }
 
 export async function fetchGames() {
-  return GameRepo.fetchGames();
+    return await GameApi.fetchGames();
+}
+
+export async function fetchOwnedGames() {
+    return await GameApi.fetchOwnedGames();
 }
 
 export async function toggleOwnedGame(gameId: number) {
-  const game: Game = GameRepo.getGameById(gameId);
-
-  if (game.isOwned) {
-    await GameRepo.removeOwnedGame(gameId);
-  } else {
-    await GameRepo.addOwnedGame(gameId);
-  }
+    return await GameApi.toggleOwnedGame(gameId);
 }

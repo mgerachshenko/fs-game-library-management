@@ -13,44 +13,46 @@ import { useEffect, useState } from "react";
 import * as GameService from "../services/gameService";
 import type { Game } from "../types/game";
 
-
 export function useGames(
-  dependencies: unknown[] = [],
-  filterFn?: ((game: Game) => boolean) | null
+    dependencies: unknown[] = [],
+    filterFn?: ((game: Game) => boolean) | null
 ) {
-  const [games, setGames] = useState<Game[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [errors, setErrors] = useState<string[]>([]);
+    const [games, setGames] = useState<Game[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const [errors, setErrors] = useState<string[]>([]);
 
-  async function fetchAll() {
-    try {
-      let result = await GameService.fetchGames();
-      if (filterFn) {
-        result = result.filter(filterFn);
-      }
-      setGames(result);
-      setError(null);
-    } catch (e) {
-      setError(String(e));
+    async function fetchAll() {
+        try {
+            const result = filterFn
+                ? await GameService.fetchOwnedGames()
+                : await GameService.fetchGames();
+
+            const nextGames = filterFn ? result.filter(filterFn) : result;
+
+            setGames(nextGames);
+            setError(null);
+            setErrors([]);
+        } catch (e) {
+            setError(String(e));
+        }
     }
-  }
 
-  async function toggleOwnedGame(gameId: number) {
-    await GameService.toggleOwnedGame(gameId);
-    await fetchAll();
-  }
+    async function toggleOwnedGame(gameId: number) {
+        await GameService.toggleOwnedGame(gameId);
+        await fetchAll();
+    }
 
-  function search(searchText: string, category?: string) {
-    const result = GameService.getGamesBySearch(searchText, category);
+    async function search(searchText: string, category?: string) {
+        const result = await GameService.getGamesBySearch(searchText, category);
 
-    const nextGames = filterFn ? result.games.filter(filterFn) : result.games;
-    setGames(nextGames);
-    setErrors(result.errors);
-  }
+        const nextGames = filterFn ? result.games.filter(filterFn) : result.games;
+        setGames(nextGames);
+        setErrors(result.errors);
+    }
 
-  useEffect(() => {
-    fetchAll();
-  }, [...dependencies]);
+    useEffect(() => {
+        fetchAll();
+    }, [...dependencies]);
 
-  return { games, error, errors, search, toggleOwnedGame };
+    return { games, error, errors, search, toggleOwnedGame };
 }
