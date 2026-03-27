@@ -23,7 +23,7 @@ function AppContent() {
     return (
         <>
             <header>
-                <h1>PressStart </h1>
+                <h1>Press Start </h1>
                 <HeaderUser />
             </header>
 
