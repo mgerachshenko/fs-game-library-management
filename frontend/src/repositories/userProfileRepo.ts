@@ -1,41 +1,59 @@
 import type { UserProfile } from "../types/UserProfile";
-import { USER_PROFILES_TESTDATA } from "../apis/userProfiles.testdata";
+//import { USER_PROFILES_TESTDATA } from "../apis/userProfiles.testdata";
+
+const API_BASE = "http://localhost:3001/api/profiles";
 
 export class UserProfileRepository {
-    private profiles = [...USER_PROFILES_TESTDATA];
+    async create(profile: UserProfile): Promise<UserProfile> {
+        const res = await fetch(API_BASE, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(profile),
+        });
 
-    getAll(): UserProfile[] {
-        return [...this.profiles];
+        if (!res.ok) throw new Error("Create failed");
+        return res.json();
+    }
+    async getAll(): Promise<UserProfile[]> {
+        const res = await fetch(API_BASE);
+
+        if (!res.ok) return [];
+
+        return res.json();
     }
 
-    getById(id: string): UserProfile | undefined {
-        return this.profiles.find((p) => p.id === id);
+    async getById(id: string): Promise<UserProfile | undefined> {
+        const res = await fetch(`${API_BASE}/${id}`);
+
+        if (!res.ok) return undefined;
+
+        return res.json();
     }
 
-    create(profile: UserProfile): UserProfile {
-        this.profiles = [profile, ...this.profiles];
-        return profile;
+    async update(
+        id: string,
+        patch: Partial<UserProfile>,
+    ): Promise<UserProfile | undefined> {
+        const res = await fetch(`${API_BASE}/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(patch),
+        });
+
+        if (!res.ok) return undefined;
+
+        return res.json();
     }
 
-    update(id: string, patch: Partial<UserProfile>): UserProfile | undefined {
-        const idx = this.profiles.findIndex((p) => p.id === id);
-        if (idx === -1) return undefined;
-
-        const updated: UserProfile = {
-            ...this.profiles[idx],
-            ...patch,
-            updatedAt: new Date().toISOString(),
-        };
-
-        this.profiles[idx] = updated;
-        return updated;
-    }
-
-    delete(id: string): boolean {
-        const before = this.profiles.length;
-        this.profiles = this.profiles.filter((p) => p.id !== id);
-        return this.profiles.length !== before;
+    async delete(id: string): Promise<boolean> {
+        const res = await fetch(`${API_BASE}/${id}`, {
+            method: "DELETE",
+        });
+        return res.ok;
     }
 }
-
 export const userProfileRepository = new UserProfileRepository();
