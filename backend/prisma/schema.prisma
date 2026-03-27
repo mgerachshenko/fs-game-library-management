@@ -13,3 +13,11 @@ model UserProfile {
   bio         String?
   avatar      String?
 }
+
+model Game {
+  id       Int     
+  title    String
+  image    String
+  category String
+  isOwned  Boolean @default(false)
+}
