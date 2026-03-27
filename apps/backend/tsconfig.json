@@ -1,15 +1,15 @@
 {
-    // Use the root directory for configuration
-    // any overriding configs defined here
-    "extends": "../../tsconfig.base.json",
-    "compilerOptions": {
-      "target": "ES6",
-      "module": "commonjs",
-      "outDir": "./dist",
-      "baseUrl": "../../",
-      "sourceMap": true,
-      "lib": ["ESNext"],
-    },
-    "include": ["src/**/*", "tests/**/*"],
-    "exclude": ["node_modules", "dist"]
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "rootDir": ".",
+    "sourceMap": true,
+    "lib": ["ES2020"],
+    "types": ["node"]
+  },
+  "include": ["src/**/*", "tests/**/*", "prisma/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
