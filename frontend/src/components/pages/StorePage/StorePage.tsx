@@ -40,7 +40,7 @@ function StorePage() {
 
     return (
         <>
-            <h2>Store Page</h2>
+            <h2>Store</h2>
             <StoreToolbar onSearch={handleSearch} />
             {!isSearching && (
                 <FeaturedGames
