@@ -1,4 +1,4 @@
-import { useContext, useId, useState, useEffect } from "react";
+import { useContext, useId, useState } from "react";
 import AvatarUpload from "./AvatarUpload";
 import "./ProfilePage.css";
 import { ProfileContext } from "../../../context/ProfileContext";
@@ -14,22 +14,19 @@ export default function ProfilePage() {
     const { profile, saveProfile } = context;
 
     const [draftDisplayName, setDraftDisplayName] = useState(
-        profile.displayName,
+        profile?.displayName ?? "",
     );
-    const [draftBio, setDraftBio] = useState(profile.bio);
-    const [draftAvatarUrl, setDraftAvatarUrl] = useState(profile.avatarUrl);
-    const bioValidation = generalInputService(draftBio);
-    const bioTooShort = draftBio.trim().length > 0 && !bioValidation.isValid;
-
-    useEffect(() => {
-        setDraftDisplayName(profile.displayName);
-        setDraftBio(profile.bio);
-        setDraftAvatarUrl(profile.avatarUrl);
-    }, [profile]);
+    const [draftBio, setDraftBio] = useState(profile?.bio ?? "");
+    const [draftAvatarUrl, setDraftAvatarUrl] = useState<string | null>(
+        profile?.avatarUrl ?? null,
+    );
 
     const uid = useId();
     const displayNameId = `displayName-${uid}`;
     const bioId = `bio-${uid}`;
+
+    const bioValidation = generalInputService(draftBio);
+    const bioTooShort = draftBio.trim().length > 0 && !bioValidation.isValid;
 
     const displayNameTooShort =
         draftDisplayName.trim().length > 0 &&
@@ -37,6 +34,10 @@ export default function ProfilePage() {
 
     const canSave =
         draftDisplayName.trim().length >= 2 && bioValidation.isValid;
+
+    if (!profile) {
+        return <div>Loading...</div>;
+    }
 
     function handleSave() {
         saveProfile({
@@ -47,9 +48,11 @@ export default function ProfilePage() {
     }
 
     function handleCancel() {
-        setDraftDisplayName(profile.displayName);
-        setDraftBio(profile.bio);
-        setDraftAvatarUrl(profile.avatarUrl);
+        if (profile) {
+            setDraftDisplayName(profile.displayName);
+            setDraftBio(profile.bio);
+            setDraftAvatarUrl(profile.avatarUrl || null);
+        }
     }
 
     return (

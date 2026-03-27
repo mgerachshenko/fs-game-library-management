@@ -1,8 +1,29 @@
 import { Request, Response } from "express";
 import {
+    createUserProfile,
+    getAllUserProfiles,
     getUserProfileById,
     updateUserProfile,
+    deleteUserProfile,
 } from "../services/userProfileService";
+
+export const createProfile = async (req: Request, res: Response) => {
+    try {
+        const newProfile = await createUserProfile(req.body);
+        res.status(201).json(newProfile);
+    } catch (error) {
+        res.status(500).json({ error: "Create failed" });
+    }
+};
+
+export const getAllProfiles = async (req: Request, res: Response) => {
+    try {
+        const profiles = await getAllUserProfiles();
+        res.json(profiles);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch profiles" });
+    }
+};
 
 export const getProfile = async (req: Request, res: Response) => {
     const id = req.params.id as string;
@@ -34,5 +55,16 @@ export const updateProfile = async (req: Request, res: Response) => {
         res.json(updated);
     } catch (error) {
         res.status(500).json({ error: "Update failed" });
+    }
+};
+
+export const deleteProfile = async (req: Request, res: Response) => {
+    const id = req.params.id as string;
+
+    try {
+        await deleteUserProfile(id);
+        res.json({ message: "Deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: "Delete failed" });
     }
 };

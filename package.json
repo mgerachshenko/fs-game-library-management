@@ -1,5 +1,8 @@
 {
-  "devDependencies": {
-    "@types/node": "^25.5.0"
-  }
+    "devDependencies": {
+        "@types/node": "^25.5.0"
+    },
+    "scripts": {
+        "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
+    }
 }
