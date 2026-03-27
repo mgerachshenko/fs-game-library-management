@@ -1,7 +1,7 @@
 import express, {Express} from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import corsOptions from "./config/cors";
+import corsOptions from "../config/cors";
 import gameRoutes from "../src/api/v1/routes/gameRoutes";
 
 const app: Express = express();
