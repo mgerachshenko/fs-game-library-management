@@ -3,13 +3,15 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model UserProfile {
-  id          Int     @id @default(autoincrement())
+  id          String  @id
+  name        String
   displayName String
   bio         String?
-  avatar      String?
+  avatarUrl   String?
+  updatedAt   DateTime
 }
