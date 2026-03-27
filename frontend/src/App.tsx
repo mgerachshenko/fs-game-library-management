@@ -23,7 +23,7 @@ function AppContent() {
     return (
         <>
             <header>
-                <h1>Steam Library Clone</h1>
+                <h1>PressStart </h1>
                 <HeaderUser />
             </header>
 
