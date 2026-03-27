@@ -5,7 +5,7 @@ import {
 } from "../services/userProfileService";
 
 export const getProfile = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const id = req.params.id as string;
 
     try {
         const profile = await getUserProfileById(id);
@@ -21,7 +21,7 @@ export const getProfile = async (req: Request, res: Response) => {
 };
 
 export const updateProfile = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const { displayName, bio, avatarUrl } = req.body;
 
     try {
