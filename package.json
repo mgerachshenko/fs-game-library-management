@@ -1,9 +1,29 @@
 {
+    "name": "fs-game-library-management",
+    "version": "1.0.0",
+    "description": "- **Member 1: Dara (Role: Integration & Docs) - **Member 2: Lance (Role: Component A) - **Member 3: Mikhail (Role: Component B)",
+    "workspaces": [
+        "apps/*"
+    ],
+    "main": "index.js",
+    "scripts": {
+        "dev": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+        "start:frontend": "npm run dev --workspace=apps/frontend",
+        "start:backend": "npm run dev --workspace=apps/backend",
+        "migrate:backend": "npm run migrate --workspace=apps/backend",
+        "seed:backend": "npm run seed --workspace=apps/backend"
+    },
     "devDependencies": {
         "@types/node": "^25.5.0",
-        "concurrently": "^9.2.1"
+        "concurrently": "^9.2.1",
+        "typescript": "^6.0.2"
     },
-    "scripts": {
-        "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
-    }
+    "dependencies": {
+        "dotenv": "^17.3.1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mgerachshenko/fs-game-library-management.git"
+    },
+    "license": "ISC"
 }
