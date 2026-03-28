@@ -12,6 +12,8 @@ model UserProfile {
   displayName String
   bio         String?
   avatar      String?
+
+  reviews Review[]
 }
 
 model Game {
@@ -20,4 +22,16 @@ model Game {
   image    String
   category String
   isOwned  Boolean @default(false)
+
+  reviews Review[]
+}
+
+model Review {
+  id            Int          @id @default(autoincrement())
+  content       String
+  gameId        Int
+  userProfileId Int
+
+  game          Game         @relation(fields: [gameId], references: [id])
+  userProfile   UserProfile  @relation(fields: [userProfileId], references: [id])
 }
