@@ -9,6 +9,7 @@ import "./FeaturedGames.css";
 import React, { useState } from "react";
 import type { Game } from "@shared/types/game";
 import { generalInputService } from "../../../../services/inputService";
+import { createReview } from "../../../../services/reviewService";
 
 type ReviewFormProps = {
     value: string;
@@ -81,7 +82,7 @@ function FeaturedGames({
     }
 
     /** Add review */
-    function handleAddReview(
+    async function handleAddReview(
         gameId: number,
         e: React.FormEvent<HTMLFormElement>,
     ) {
@@ -96,23 +97,29 @@ function FeaturedGames({
 
         const trimmedText = currentDraft.trim();
 
-        setReviewsByGame((prev) => {
-            const existingReviews = prev[gameId] || [];
-            return {
+        try {
+            await createReview(gameId, trimmedText);
+
+            setReviewsByGame((prev) => {
+                const existingReviews = prev[gameId] || [];
+                return {
+                    ...prev,
+                    [gameId]: [...existingReviews, trimmedText],
+                };
+            });
+
+            setDraftReviews((prev) => ({
                 ...prev,
-                [gameId]: [...existingReviews, trimmedText],
-            };
-        });
+                [gameId]: "",
+            }));
 
-        setDraftReviews((prev) => ({
-            ...prev,
-            [gameId]: "",
-        }));
-
-        setOpenReview((prev) => ({
-            ...prev,
-            [gameId]: false,
-        }));
+            setOpenReview((prev) => ({
+                ...prev,
+                [gameId]: false,
+            }));
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     /** Remove review */
