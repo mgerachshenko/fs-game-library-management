@@ -10,19 +10,46 @@
  * because this is where all games props are loaded to be sent to featured games for display
  * by using useGames without a filter
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FeaturedGames from "./FeaturedGames/FeaturedGames";
 import StoreToolbar from "./StoreToolbar/StoreToolbar";
 import { useGames } from "../../../hooks/useGames";
+import { fetchReviewsByGame } from "../../../services/reviewService";
 import type { Game } from "@shared/types/game";
 
-type ReviewsByGame = { [id: number]: string[] };
+type Review = {
+    id: number;
+    content: string;
+};
+
+type ReviewsByGame = { [id: number]: Review[] };
 
 function StorePage() {
     const [reviewsByGame, setReviewsByGame] = useState<ReviewsByGame>({});
     const [isSearching, setIsSearching] = useState(false);
 
     const { games, error, search, toggleOwnedGame } = useGames([], null);
+
+    useEffect(() => {
+        async function loadReviews() {
+            const reviewMap: ReviewsByGame = {};
+
+            for (const game of games) {
+                try {
+                    const reviews = await fetchReviewsByGame(game.id);
+                    reviewMap[game.id] = reviews;
+                } catch (error) {
+                    reviewMap[game.id] = [];
+                }
+            }
+
+            setReviewsByGame(reviewMap);
+        }
+
+        if (games.length > 0) {
+            loadReviews();
+        }
+    }, [games]);
 
     if (error) return <p>{error}</p>;
 

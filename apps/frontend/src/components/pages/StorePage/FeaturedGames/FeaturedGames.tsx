@@ -1,14 +1,13 @@
-/**
- * Lance's I.3 Explanation Block
- * This component properly implements the hook
- * because this is where all games are then displayed from the given props
- * including the function for toggling game ownership when clicking a button
- */
-
 import "./FeaturedGames.css";
 import React, { useState } from "react";
 import type { Game } from "@shared/types/game";
 import { generalInputService } from "../../../../services/inputService";
+import { createReview, deleteReview } from "../../../../services/reviewService";
+
+type Review = {
+    id: number;
+    content: string;
+};
 
 type ReviewFormProps = {
     value: string;
@@ -19,9 +18,9 @@ type ReviewFormProps = {
 type FeaturedGamesProps = {
     games: Game[];
     toggleOwnedGame: (id: number) => Promise<void>;
-    reviewsByGame: { [id: number]: string[] };
+    reviewsByGame: { [id: number]: Review[] };
     setReviewsByGame: React.Dispatch<
-        React.SetStateAction<{ [id: number]: string[] }>
+        React.SetStateAction<{ [id: number]: Review[] }>
     >;
 };
 
@@ -59,12 +58,9 @@ function FeaturedGames({
     reviewsByGame,
     setReviewsByGame,
 }: FeaturedGamesProps) {
-    const [draftReviews, setDraftReviews] = useState<{ [id: number]: string }>(
-        {},
-    );
+    const [draftReviews, setDraftReviews] = useState<{ [id: number]: string }>({});
     const [openReview, setOpenReview] = useState<{ [id: number]: boolean }>({});
 
-    /** Toggle review box */
     function toggleReview(gameId: number) {
         setOpenReview((prev) => ({
             ...prev,
@@ -72,7 +68,6 @@ function FeaturedGames({
         }));
     }
 
-    /** Update draft review text */
     function handleDraftChange(gameId: number, text: string) {
         setDraftReviews((prev) => ({
             ...prev,
@@ -80,8 +75,7 @@ function FeaturedGames({
         }));
     }
 
-    /** Add review */
-    function handleAddReview(
+    async function handleAddReview(
         gameId: number,
         e: React.FormEvent<HTMLFormElement>,
     ) {
@@ -90,37 +84,46 @@ function FeaturedGames({
         const currentDraft = draftReviews[gameId] || "";
         const validation = generalInputService(currentDraft);
 
-        if (!validation.isValid) {
-            return;
-        }
+        if (!validation.isValid) return;
 
         const trimmedText = currentDraft.trim();
 
-        setReviewsByGame((prev) => {
-            const existingReviews = prev[gameId] || [];
-            return {
+        try {
+            const newReview = await createReview(gameId, trimmedText);
+
+            setReviewsByGame((prev) => {
+                const existing = prev[gameId] || [];
+                return {
+                    ...prev,
+                    [gameId]: [...existing, newReview],
+                };
+            });
+
+            setDraftReviews((prev) => ({
                 ...prev,
-                [gameId]: [...existingReviews, trimmedText],
-            };
-        });
+                [gameId]: "",
+            }));
 
-        setDraftReviews((prev) => ({
-            ...prev,
-            [gameId]: "",
-        }));
-
-        setOpenReview((prev) => ({
-            ...prev,
-            [gameId]: false,
-        }));
+            setOpenReview((prev) => ({
+                ...prev,
+                [gameId]: false,
+            }));
+        } catch (error) {
+            console.error(error);
+        }
     }
 
-    /** Remove review */
-    function handleRemoveReview(gameId: number, index: number) {
-        setReviewsByGame((prev) => ({
-            ...prev,
-            [gameId]: prev[gameId].filter((_, i) => i !== index),
-        }));
+    async function handleRemoveReview(gameId: number, reviewId: number) {
+        try {
+            await deleteReview(reviewId);
+
+            setReviewsByGame((prev) => ({
+                ...prev,
+                [gameId]: prev[gameId].filter((r) => r.id !== reviewId),
+            }));
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -139,9 +142,7 @@ function FeaturedGames({
                             <span className="game-title">{game.title}</span>
 
                             <div className="card-actions">
-                                <button
-                                    onClick={() => toggleOwnedGame(game.id)}
-                                >
+                                <button onClick={() => toggleOwnedGame(game.id)}>
                                     {game.isOwned ? "Remove" : "Add"}
                                 </button>
 
@@ -168,15 +169,15 @@ function FeaturedGames({
 
                             {reviews.length > 0 && (
                                 <ul className="game-reviews">
-                                    {reviews.map((review, index) => (
-                                        <li key={index} className="game-review">
-                                            <p>{review}</p>
+                                    {reviews.map((review) => (
+                                        <li key={review.id} className="game-review">
+                                            <p>{review.content}</p>
                                             <button
                                                 type="button"
                                                 onClick={() =>
                                                     handleRemoveReview(
                                                         game.id,
-                                                        index,
+                                                        review.id
                                                     )
                                                 }
                                             >

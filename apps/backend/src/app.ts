@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import corsOptions from "../config/cors";
 import setupSwagger from "../config/swagger";
 import gameRoutes from "../src/api/v1/routes/gameRoutes";
+import reviewRoutes from "../src/api/v1/routes/reviewRoutes";
 import userProfileRoutes from "./api/v1/routes/userProfileRoutes";
 import errorHandler from "./api/v1/middleware/errorHandler";
 
@@ -26,6 +27,7 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api/v1/games", gameRoutes);
+app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/profiles", userProfileRoutes);
 
 app.use(errorHandler);

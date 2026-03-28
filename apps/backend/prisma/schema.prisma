@@ -8,12 +8,14 @@ datasource db {
 }
 
 model UserProfile {
-  id          String  @id
+  id          String   @id
   name        String
   displayName String
   bio         String?
   avatarUrl   String?
   updatedAt   DateTime
+
+  reviews Review[]
 }
 
 model Game {
@@ -22,4 +24,16 @@ model Game {
   image    String
   category String
   isOwned  Boolean @default(false)
+
+  reviews Review[]
+}
+
+model Review {
+  id            Int          @id @default(autoincrement())
+  content       String
+  gameId        Int
+  userProfileId String
+
+  game          Game         @relation(fields: [gameId], references: [id])
+  userProfile   UserProfile  @relation(fields: [userProfileId], references: [id])
 }

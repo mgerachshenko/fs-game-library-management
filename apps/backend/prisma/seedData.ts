@@ -1,60 +1,15 @@
 export const gameSeedData = [
     { title: "EarthBound", image: "/EB.jpg", category: "rpg", isOwned: false },
-    {
-        title: "The Legend of Zelda",
-        image: "/LOZOOT.jpg",
-        category: "adventure",
-        isOwned: false,
-    },
-    {
-        title: "Pokemon Platinum",
-        image: "/PP.png",
-        category: "rpg",
-        isOwned: false,
-    },
-    {
-        title: "Super Mario 64",
-        image: "/SM64.jpg",
-        category: "platformer",
-        isOwned: false,
-    },
-    {
-        title: "Goldeneye",
-        image: "/Goldeneye.jpg",
-        category: "shooter",
-        isOwned: false,
-    },
-    {
-        title: "Super Mario World",
-        image: "/SMW.png",
-        category: "platformer",
-        isOwned: false,
-    },
-    {
-        title: "Pokemon Emerald",
-        image: "/PE.png",
-        category: "rpg",
-        isOwned: false,
-    },
-    {
-        title: "Chrono Trigger",
-        image: "/ChronoTrigger.jpg",
-        category: "rpg",
-        isOwned: false,
-    },
-    {
-        title: "Donkey Kong Country",
-        image: "/DKC.jpg",
-        category: "platformer",
-        isOwned: false,
-    },
-    {
-        title: "Metroid Prime",
-        image: "/MetroidPrime.jpg",
-        category: "shooter",
-        isOwned: false,
-    },
-];
+    { title: "The Legend of Zelda", image: "/LOZOOT.jpg", category: "adventure", isOwned: false },
+    { title: "Pokemon Platinum", image: "/PP.png", category: "rpg", isOwned: false },
+    { title: "Super Mario 64", image: "/SM64.jpg", category: "platformer", isOwned: false },
+    { title: "Goldeneye", image: "/Goldeneye.jpg", category: "shooter", isOwned: false },
+    { title: "Super Mario World", image: "/SMW.png", category: "platformer", isOwned: false },
+    { title: "Pokemon Emerald", image: "/PE.png", category: "rpg", isOwned: false },
+    { title: "Chrono Trigger", image: "/ChronoTrigger.jpg", category: "rpg", isOwned: false },
+    { title: "Donkey Kong Country", image: "/DKC.jpg", category: "platformer", isOwned: false },
+    { title: "Metroid Prime", image: "/MetroidPrime.jpg", category: "shooter", isOwned: false },
+]
 
 export const profileSeedData = [
     {
