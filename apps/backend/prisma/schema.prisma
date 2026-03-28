@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UserProfile {
+  id          String   @id
+  name        String
+  displayName String
+  bio         String?
+  avatarUrl   String?
+  updatedAt   DateTime
+
+  reviews Review[]
+}
+
+model Game {
+  id       Int     @id @default(autoincrement())
+  title    String
+  image    String
+  category String
+  isOwned  Boolean @default(false)
+
+  reviews Review[]
+}
+
+model Review {
+  id            Int          @id @default(autoincrement())
+  content       String
+  gameId        Int
+  userProfileId String
+
+  game          Game         @relation(fields: [gameId], references: [id])
+  userProfile   UserProfile  @relation(fields: [userProfileId], references: [id])
+}
