@@ -16,7 +16,7 @@ export const createProfile = async (req: Request, res: Response) => {
     }
 };
 
-export const getAllProfiles = async (req: Request, res: Response) => {
+export const getAllProfiles = async (_req: Request, res: Response) => {
     try {
         const profiles = await getAllUserProfiles();
         res.json(profiles);
