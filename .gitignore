@@ -11,7 +11,6 @@ node_modules/
 dist
 dist-ssr
 *.local
-apps/frontend/src/TestProfile.tsx
 
 # Editor directories and files
 .vscode/*
