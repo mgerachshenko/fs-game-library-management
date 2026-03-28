@@ -41,3 +41,19 @@ export async function createReview(gameId: number, content: string) {
     const json: ReviewResponseJSON<any> = await response.json();
     return json.data;
 }
+
+export async function deleteReview(reviewId: number) {
+    const response: Response = await fetch(
+        `${BASE_URL}${REVIEW_ENDPOINT}/${reviewId}`,
+        {
+            method: "DELETE"
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Failed to delete review");
+    }
+
+    const json: ReviewResponseJSON<null> = await response.json();
+    return json.data;
+}
