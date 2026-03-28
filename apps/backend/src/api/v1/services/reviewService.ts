@@ -22,7 +22,7 @@ export async function getReviewsByGame(gameId: number) {
 export async function createReview(reviewData: {
     gameId: number;
     content: string;
-    userProfileId: number;
+    userProfileId: string;
 }) {
     const game = await prisma.game.findUnique({
         where: { id: reviewData.gameId }

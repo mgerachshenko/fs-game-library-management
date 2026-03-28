@@ -1,20 +1,14 @@
-import type { UserProfile } from "@shared/types/user-profile";
+import type { UserProfile } from "@shared/types/UserProfile";
 import { userProfileRepository } from "../repositories/userProfileRepo";
 
 export class UserProfileService {
     private repo = userProfileRepository;
 
-    getProfiles(): UserProfile[] {
-        return this.repo.getAll();
+    async getProfile(id: string): Promise<UserProfile | undefined> {
+        return this.repo.getById(id);
     }
 
-    getProfileOrThrow(id: string): UserProfile {
-        const p = this.repo.getById(id);
-        if (!p) throw new Error("Profile not found");
-        return p;
-    }
-
-    updateDisplayName(id: string, value: string) {
+    async updateDisplayName(id: string, value: string) {
         const trimmed = value.trim();
 
         if (trimmed.length < 2) {
@@ -24,15 +18,12 @@ export class UserProfileService {
         return this.repo.update(id, { displayName: trimmed });
     }
 
-    updateBio(id: string, bio: string): UserProfile | undefined {
+    async updateBio(id: string, bio: string) {
         const cleaned = bio.trim();
         return this.repo.update(id, { bio: cleaned });
     }
 
-    updateAvatar(
-        id: string,
-        avatarUrl: string | null,
-    ): UserProfile | undefined {
+    async updateAvatar(id: string, avatarUrl: string | null) {
         return this.repo.update(id, { avatarUrl });
     }
 }

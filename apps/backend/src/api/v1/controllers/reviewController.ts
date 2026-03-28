@@ -19,7 +19,7 @@ export const createReview = async (req: Request, res: Response) => {
         const { gameId, content } = req.body;
 
         // MG: hardcoded user, needs to be changed when auth is added
-        const userProfileId = 1;
+        const userProfileId = "u1";
 
         const newReview = await reviewService.createReview({
             gameId,

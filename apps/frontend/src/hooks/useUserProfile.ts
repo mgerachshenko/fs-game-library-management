@@ -1,32 +1,44 @@
-import { useState } from "react";
-import type { UserProfile } from "@shared/types/user-profile";
+import { useEffect, useState } from "react";
+import type { UserProfile } from "@shared/types/UserProfile";
 import { userProfileService } from "../services/userProfileService";
 
 export function useUserProfile(userId: string) {
-    const [profile, setProfile] = useState<UserProfile>(() =>
-        userProfileService.getProfileOrThrow(userId),
-    );
+    const [profile, setProfile] = useState<UserProfile | null>(null);
 
-    function updateDisplayName(value: string) {
-        const updated = userProfileService.updateDisplayName(userId, value);
+    useEffect(() => {
+        const loadProfile = async () => {
+            const data = await userProfileService.getProfile(userId);
+            setProfile(data ?? null);
+        };
+
+        loadProfile();
+    }, [userId]);
+
+    async function updateDisplayName(value: string) {
+        const updated = await userProfileService.updateDisplayName(
+            userId,
+            value,
+        );
         if (updated) setProfile(updated);
     }
 
-    function updateBio(value: string) {
-        const updated = userProfileService.updateBio(userId, value);
+    async function updateBio(value: string) {
+        const updated = await userProfileService.updateBio(userId, value);
         if (updated) setProfile(updated);
     }
 
-    function updateAvatar(value: string | null) {
-        const updated = userProfileService.updateAvatar(userId, value);
+    async function updateAvatar(value: string | null) {
+        const updated = await userProfileService.updateAvatar(userId, value);
         if (updated) setProfile(updated);
     }
 
-    function saveProfile(patch: Partial<UserProfile>) {
+    async function saveProfile(patch: Partial<UserProfile>) {
         let updated = profile;
 
+        if (!updated) return;
+
         if (patch.displayName !== undefined) {
-            const result = userProfileService.updateDisplayName(
+            const result = await userProfileService.updateDisplayName(
                 userId,
                 patch.displayName,
             );
@@ -34,12 +46,15 @@ export function useUserProfile(userId: string) {
         }
 
         if (patch.bio !== undefined) {
-            const result = userProfileService.updateBio(userId, patch.bio);
+            const result = await userProfileService.updateBio(
+                userId,
+                patch.bio,
+            );
             if (result) updated = result;
         }
 
         if (patch.avatarUrl !== undefined) {
-            const result = userProfileService.updateAvatar(
+            const result = await userProfileService.updateAvatar(
                 userId,
                 patch.avatarUrl,
             );
@@ -51,9 +66,9 @@ export function useUserProfile(userId: string) {
 
     return {
         profile,
-        displayName: profile.displayName,
-        bio: profile.bio,
-        avatarUrl: profile.avatarUrl,
+        displayName: profile?.displayName ?? "",
+        bio: profile?.bio ?? "",
+        avatarUrl: profile?.avatarUrl ?? null,
         setDisplayName: updateDisplayName,
         setBio: updateBio,
         setAvatarUrl: updateAvatar,

@@ -8,10 +8,12 @@ datasource db {
 }
 
 model UserProfile {
-  id          Int     @id @default(autoincrement())
+  id          String   @id
+  name        String
   displayName String
   bio         String?
-  avatar      String?
+  avatarUrl   String?
+  updatedAt   DateTime
 
   reviews Review[]
 }
@@ -30,7 +32,7 @@ model Review {
   id            Int          @id @default(autoincrement())
   content       String
   gameId        Int
-  userProfileId Int
+  userProfileId String
 
   game          Game         @relation(fields: [gameId], references: [id])
   userProfile   UserProfile  @relation(fields: [userProfileId], references: [id])
