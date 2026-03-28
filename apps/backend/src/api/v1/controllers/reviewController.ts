@@ -32,3 +32,15 @@ export const createReview = async (req: Request, res: Response) => {
         return res.status(500).json(errorResponse("Failed to create review"));
     }
 };
+
+export const deleteReview = async (req: Request, res: Response) => {
+    try {
+        const reviewId = Number(req.params.id);
+
+        await reviewService.deleteReview(reviewId);
+
+        return res.json(successResponse(null, "Review deleted"));
+    } catch (error) {
+        return res.status(500).json(errorResponse("Failed to delete review"));
+    }
+};

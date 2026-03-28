@@ -25,3 +25,12 @@ export const createReviewSchema: ObjectSchema = Joi.object({
         "any.required": "Review content is required"
     })
 });
+
+export const deleteReviewSchema: ObjectSchema = Joi.object({
+    id: Joi.number().integer().positive().required().messages({
+        "number.base": "Review id must be a number",
+        "number.integer": "Review id must be a whole number",
+        "number.positive": "Review id must be greater than 0",
+        "any.required": "Review id is required"
+    })
+});

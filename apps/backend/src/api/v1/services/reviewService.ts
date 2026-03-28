@@ -56,3 +56,17 @@ export async function createReview(reviewData: {
         }
     });
 }
+
+export async function deleteReview(reviewId: number) {
+    const review = await prisma.review.findUnique({
+        where: { id: reviewId }
+    });
+
+    if (!review) {
+        throw new Error("Review not found");
+    }
+
+    return await prisma.review.delete({
+        where: { id: reviewId }
+    });
+}
