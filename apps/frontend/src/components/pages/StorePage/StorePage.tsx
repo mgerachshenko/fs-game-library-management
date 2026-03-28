@@ -17,7 +17,12 @@ import { useGames } from "../../../hooks/useGames";
 import { fetchReviewsByGame } from "../../../services/reviewService";
 import type { Game } from "@shared/types/game";
 
-type ReviewsByGame = { [id: number]: string[] };
+type Review = {
+    id: number;
+    content: string;
+};
+
+type ReviewsByGame = { [id: number]: Review[] };
 
 function StorePage() {
     const [reviewsByGame, setReviewsByGame] = useState<ReviewsByGame>({});
@@ -32,8 +37,7 @@ function StorePage() {
             for (const game of games) {
                 try {
                     const reviews = await fetchReviewsByGame(game.id);
-
-                    reviewMap[game.id] = reviews.map((review: any) => review.content);
+                    reviewMap[game.id] = reviews;
                 } catch (error) {
                     reviewMap[game.id] = [];
                 }
