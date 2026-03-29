@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import StorePage from "./components/pages/StorePage/StorePage";
 import LibraryPage from "./components/pages/LibraryPage/LibraryPage";
 import ProfilePage from "./components/pages/ProfilePage/ProfilePage";
-// import { useState } from "react";
 import { Layout } from "./components/layout/Layout";
 import { ProfileProvider } from "./context/ProfileProvider";
 import { ProfileContext } from "./context/ProfileContext";

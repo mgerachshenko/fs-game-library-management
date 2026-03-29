@@ -1,7 +1,7 @@
 import type { UserProfile } from "@shared/types/UserProfile";
 //import { USER_PROFILES_TESTDATA } from "../apis/userProfiles.testdata";
 
-const API_BASE = "http://localhost:3001/api/v1/profiles";
+const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api/v1/profiles`;
 
 export class UserProfileRepository {
     async create(profile: UserProfile): Promise<UserProfile> {
