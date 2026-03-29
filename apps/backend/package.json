@@ -9,7 +9,9 @@
         "dev": "ts-node-dev src/server.ts",
         "start": "ts-node src/server.ts",
         "build": "tsc",
-        "seed": "ts-node prisma/seed.ts"
+        "seed": "ts-node prisma/seed.ts",
+        "vercel-build": "prisma migrate deploy && prisma db seed && npm run build",
+        "postinstall": "prisma generate"
     },
     "prisma": {
         "seed": "ts-node prisma/seed.ts"
