@@ -6,6 +6,7 @@ import { Layout } from "./components/layout/Layout";
 import { ProfileProvider } from "./context/ProfileProvider";
 import { ProfileContext } from "./context/ProfileContext";
 import { useContext } from "react";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 
 function HeaderUser() {
     const context = useContext(ProfileContext);
@@ -21,9 +22,17 @@ function HeaderUser() {
 function AppContent() {
     return (
         <>
-            <header>
-                <h1>Press Start </h1>
-                <HeaderUser />
+            <header className="app-header">
+                <h1 className="app-header__title">Press Start</h1>
+                <div className="app-header__right">
+                    <SignedOut>
+                        <SignInButton />
+                    </SignedOut>
+                    <SignedIn>
+                        <UserButton />
+                    </SignedIn>
+                    <HeaderUser />
+                </div>
             </header>
 
             <main>
