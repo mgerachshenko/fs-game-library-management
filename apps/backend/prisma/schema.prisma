@@ -9,7 +9,7 @@ datasource db {
 
 model UserProfile {
   id          String   @id
-  clerkId     String
+  clerkId     String   @unique
   name        String
   displayName String
   bio         String?

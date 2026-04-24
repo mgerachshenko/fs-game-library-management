@@ -53,23 +53,21 @@ export const getProfile = async (req: Request, res: Response) => {
     }
 
     try {
-        let profile = await prisma.userProfile.findFirst({
-            where: { clerkId: userId },
+        const profile = await prisma.userProfile.upsert({
+            where: {
+                clerkId: userId,
+            },
+            update: {},
+            create: {
+                id: userId,
+                clerkId: userId,
+                name: "New User",
+                displayName: "Player",
+                bio: "",
+                avatarUrl: null,
+                updatedAt: new Date(),
+            },
         });
-
-        if (!profile) {
-            profile = await prisma.userProfile.create({
-                data: {
-                    id: userId,
-                    clerkId: userId,
-                    name: "New User",
-                    displayName: "Player",
-                    bio: "",
-                    avatarUrl: null,
-                    updatedAt: new Date(),
-                },
-            });
-        }
 
         res.json(profile);
     } catch (error) {
@@ -87,7 +85,7 @@ export const updateProfile = async (req: Request, res: Response) => {
     try {
         const { displayName, bio, avatarUrl } = req.body;
 
-        await prisma.userProfile.updateMany({
+        await prisma.userProfile.update({
             where: { clerkId: userId },
             data: {
                 ...(displayName !== undefined && { displayName }),
@@ -115,7 +113,7 @@ export const deleteProfile = async (req: Request, res: Response) => {
     }
 
     try {
-        await prisma.userProfile.deleteMany({
+        await prisma.userProfile.delete({
             where: { clerkId: userId },
         });
 

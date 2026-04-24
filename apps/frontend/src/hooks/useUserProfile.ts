@@ -5,10 +5,10 @@ import { useAuth } from "@clerk/clerk-react";
 
 export function useUserProfile(userId: string) {
     const [profile, setProfile] = useState<UserProfile | null>(null);
-    const { getToken } = useAuth();
+    const { getToken, isLoaded } = useAuth();
 
     useEffect(() => {
-        if (!userId) return;
+        if (!userId || !isLoaded) return;
 
         const loadProfile = async () => {
             const token = await getToken();
@@ -19,7 +19,7 @@ export function useUserProfile(userId: string) {
         };
 
         loadProfile();
-    }, [userId, getToken]);
+    }, [userId, getToken, isLoaded]);
 
     async function updateDisplayName(value: string) {
         const token = await getToken();
@@ -48,6 +48,38 @@ export function useUserProfile(userId: string) {
         if (updated) setProfile(updated);
     }
 
+    async function saveProfile(patch: Partial<UserProfile>) {
+        const token = await getToken();
+        if (!token) return;
+
+        let updated: UserProfile | null = profile;
+
+        if (!updated) return;
+
+        if (patch.displayName !== undefined) {
+            const result = await userProfileService.updateDisplayName(
+                token,
+                patch.displayName,
+            );
+            if (result) updated = result;
+        }
+
+        if (patch.bio !== undefined) {
+            const result = await userProfileService.updateBio(token, patch.bio);
+            if (result) updated = result;
+        }
+
+        if (patch.avatarUrl !== undefined) {
+            const result = await userProfileService.updateAvatar(
+                token,
+                patch.avatarUrl,
+            );
+            if (result) updated = result;
+        }
+
+        setProfile(updated);
+    }
+
     return {
         profile,
         displayName: profile?.displayName ?? "",
@@ -56,5 +88,6 @@ export function useUserProfile(userId: string) {
         setDisplayName: updateDisplayName,
         setBio: updateBio,
         setAvatarUrl: updateAvatar,
+        saveProfile,
     };
 }
