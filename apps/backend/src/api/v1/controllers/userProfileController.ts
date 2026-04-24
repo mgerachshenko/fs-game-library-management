@@ -1,15 +1,35 @@
 import { Request, Response } from "express";
-import {
-    createUserProfile,
-    getAllUserProfiles,
-    getUserProfileById,
-    updateUserProfile,
-    deleteUserProfile,
-} from "../services/userProfileService";
+import prisma from "../../../../prisma/client";
+import { getAuth } from "@clerk/express";
 
 export const createProfile = async (req: Request, res: Response) => {
+    const { userId } = getAuth(req);
+
+    if (!userId) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
+
     try {
-        const newProfile = await createUserProfile(req.body);
+        const existing = await prisma.userProfile.findFirst({
+            where: { clerkId: userId },
+        });
+        if (existing) {
+            return res.status(200).json(existing);
+        }
+
+        const { name, displayName, bio, avatarUrl } = req.body;
+        const newProfile = await prisma.userProfile.create({
+            data: {
+                id: userId,
+                clerkId: userId,
+                name: name ?? "New User",
+                displayName: displayName ?? "Player",
+                bio: bio ?? "",
+                avatarUrl: avatarUrl ?? null,
+                updatedAt: new Date(),
+            },
+        });
+
         res.status(201).json(newProfile);
     } catch (error) {
         res.status(500).json({ error: "Create failed" });
@@ -18,7 +38,7 @@ export const createProfile = async (req: Request, res: Response) => {
 
 export const getAllProfiles = async (_req: Request, res: Response) => {
     try {
-        const profiles = await getAllUserProfiles();
+        const profiles = await prisma.userProfile.findMany();
         res.json(profiles);
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch profiles" });
@@ -26,13 +46,29 @@ export const getAllProfiles = async (_req: Request, res: Response) => {
 };
 
 export const getProfile = async (req: Request, res: Response) => {
-    const id = req.params.id as string;
+    const { userId } = getAuth(req);
+
+    if (!userId) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
 
     try {
-        const profile = await getUserProfileById(id);
+        let profile = await prisma.userProfile.findFirst({
+            where: { clerkId: userId },
+        });
 
         if (!profile) {
-            return res.status(404).json({ message: "Profile not found" });
+            profile = await prisma.userProfile.create({
+                data: {
+                    id: userId,
+                    clerkId: userId,
+                    name: "New User",
+                    displayName: "Player",
+                    bio: "",
+                    avatarUrl: null,
+                    updatedAt: new Date(),
+                },
+            });
         }
 
         res.json(profile);
@@ -42,14 +78,27 @@ export const getProfile = async (req: Request, res: Response) => {
 };
 
 export const updateProfile = async (req: Request, res: Response) => {
-    const id = req.params.id as string;
-    const { displayName, bio, avatarUrl } = req.body;
+    const { userId } = getAuth(req);
+
+    if (!userId) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
 
     try {
-        const updated = await updateUserProfile(id, {
-            displayName,
-            bio,
-            avatarUrl,
+        const { displayName, bio, avatarUrl } = req.body;
+
+        await prisma.userProfile.updateMany({
+            where: { clerkId: userId },
+            data: {
+                ...(displayName !== undefined && { displayName }),
+                ...(bio !== undefined && { bio }),
+                ...(avatarUrl !== undefined && { avatarUrl }),
+                updatedAt: new Date(),
+            },
+        });
+
+        const updated = await prisma.userProfile.findFirst({
+            where: { clerkId: userId },
         });
 
         res.json(updated);
@@ -59,10 +108,17 @@ export const updateProfile = async (req: Request, res: Response) => {
 };
 
 export const deleteProfile = async (req: Request, res: Response) => {
-    const id = req.params.id as string;
+    const { userId } = getAuth(req);
+
+    if (!userId) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
 
     try {
-        await deleteUserProfile(id);
+        await prisma.userProfile.deleteMany({
+            where: { clerkId: userId },
+        });
+
         res.json({ message: "Deleted successfully" });
     } catch (error) {
         res.status(500).json({ error: "Delete failed" });

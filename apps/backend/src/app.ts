@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
+import { clerkMiddleware } from "@clerk/express";
 
 import corsOptions from "../config/cors";
 import setupSwagger from "../config/swagger";
@@ -19,6 +20,8 @@ app.use(morgan("combined"));
 app.use(express.json());
 
 app.use(cors(corsOptions));
+
+app.use(clerkMiddleware());
 
 setupSwagger(app);
 

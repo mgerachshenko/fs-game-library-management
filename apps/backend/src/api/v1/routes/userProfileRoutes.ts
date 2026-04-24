@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-    createProfile,
+    //createProfile,
     getAllProfiles,
     getProfile,
     updateProfile,
@@ -9,10 +9,10 @@ import {
 
 const router = Router();
 
-router.post("/", createProfile);
+// router.post("/", createProfile);
 router.get("/", getAllProfiles);
-router.get("/:id", getProfile);
-router.put("/:id", updateProfile);
-router.delete("/:id", deleteProfile);
+router.get("/me", getProfile);
+router.put("/me", updateProfile);
+router.delete("/me", deleteProfile);
 
 export default router;
