@@ -1,6 +1,7 @@
 -- CreateTable
 CREATE TABLE "UserProfile" (
     "id" TEXT NOT NULL,
+    "clerkId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "displayName" TEXT NOT NULL,
     "bio" TEXT,
@@ -30,6 +31,9 @@ CREATE TABLE "Review" (
 
     CONSTRAINT "Review_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "UserProfile_clerkId_key" ON "UserProfile"("clerkId");
 
 -- AddForeignKey
 ALTER TABLE "Review" ADD CONSTRAINT "Review_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Game"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
