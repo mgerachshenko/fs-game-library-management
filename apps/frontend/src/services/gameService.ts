@@ -42,6 +42,6 @@ export async function fetchOwnedGames() {
     return await GameApi.fetchOwnedGames();
 }
 
-export async function toggleOwnedGame(gameId: number) {
-    return await GameApi.toggleOwnedGame(gameId);
+export async function toggleOwnedGame(gameId: number, token: string) {
+    return await GameApi.toggleOwnedGame(gameId, token);
 }
