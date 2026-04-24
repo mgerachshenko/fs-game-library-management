@@ -1,6 +1,5 @@
 import type { UserProfile } from "@shared/types/UserProfile";
 //import { USER_PROFILES_TESTDATA } from "../apis/userProfiles.testdata";
-import { useAuth } from "@clerk/clerk-react";
 
 const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api/v1/profiles`;
 
