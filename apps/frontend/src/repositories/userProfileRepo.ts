@@ -4,10 +4,11 @@ import type { UserProfile } from "@shared/types/UserProfile";
 const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api/v1/profiles`;
 
 export class UserProfileRepository {
-    async create(profile: UserProfile): Promise<UserProfile> {
-        const res = await fetch(API_BASE, {
+    async create(token: string, profile: UserProfile): Promise<UserProfile> {
+        const res = await fetch(`${API_BASE}`, {
             method: "POST",
             headers: {
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(profile),
@@ -25,24 +26,31 @@ export class UserProfileRepository {
         return res.json();
     }
 
-    async getById(id: string): Promise<UserProfile | undefined> {
-        const res = await fetch(`${API_BASE}/${id}`);
+    async getCurrentUserProfile(
+        token: string,
+    ): Promise<UserProfile | undefined> {
+        const res = await fetch(`${API_BASE}/me`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
         if (!res.ok) return undefined;
 
         return res.json();
     }
 
-    async update(
-        id: string,
-        patch: Partial<UserProfile>,
+    async updateDisplayName(
+        token: string,
+        value: string,
     ): Promise<UserProfile | undefined> {
-        const res = await fetch(`${API_BASE}/${id}`, {
+        const res = await fetch(`${API_BASE}/me`, {
             method: "PUT",
             headers: {
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(patch),
+            body: JSON.stringify({ displayName: value }),
         });
 
         if (!res.ok) return undefined;
@@ -50,10 +58,50 @@ export class UserProfileRepository {
         return res.json();
     }
 
-    async delete(id: string): Promise<boolean> {
-        const res = await fetch(`${API_BASE}/${id}`, {
-            method: "DELETE",
+    async updateBio(
+        token: string,
+        value: string,
+    ): Promise<UserProfile | undefined> {
+        const res = await fetch(`${API_BASE}/me`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ bio: value }),
         });
+
+        if (!res.ok) return undefined;
+
+        return res.json();
+    }
+
+    async updateAvatar(
+        token: string,
+        value: string | null,
+    ): Promise<UserProfile | undefined> {
+        const res = await fetch(`${API_BASE}/me`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ avatarUrl: value }),
+        });
+
+        if (!res.ok) return undefined;
+
+        return res.json();
+    }
+
+    async delete(token: string): Promise<boolean> {
+        const res = await fetch(`${API_BASE}/me`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
         return res.ok;
     }
 }
