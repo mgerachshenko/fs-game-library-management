@@ -4,27 +4,27 @@ import { userProfileRepository } from "../repositories/userProfileRepo";
 export class UserProfileService {
     private repo = userProfileRepository;
 
-    async getProfile(id: string): Promise<UserProfile | undefined> {
-        return this.repo.getById(id);
+    async getProfile(token: string): Promise<UserProfile | undefined> {
+        return this.repo.getCurrentUserProfile(token);
     }
 
-    async updateDisplayName(id: string, value: string) {
+    async updateDisplayName(token: string, value: string) {
         const trimmed = value.trim();
 
         if (trimmed.length < 2) {
             return undefined;
         }
 
-        return this.repo.update(id, { displayName: trimmed });
+        return this.repo.updateDisplayName(token, trimmed);
     }
 
-    async updateBio(id: string, bio: string) {
+    async updateBio(token: string, bio: string) {
         const cleaned = bio.trim();
-        return this.repo.update(id, { bio: cleaned });
+        return this.repo.updateBio(token, cleaned);
     }
 
-    async updateAvatar(id: string, avatarUrl: string | null) {
-        return this.repo.update(id, { avatarUrl });
+    async updateAvatar(token: string, avatarUrl: string | null) {
+        return this.repo.updateAvatar(token, avatarUrl);
     }
 }
 

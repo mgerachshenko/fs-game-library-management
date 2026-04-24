@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import type { Game } from "@shared/types/game";
 import { generalInputService } from "../../../../services/inputService";
 import { createReview, deleteReview } from "../../../../services/reviewService";
+import { SignedIn, SignedOut, SignInButton, useAuth } from "@clerk/clerk-react";
 
 type Review = {
     id: number;
@@ -141,19 +142,21 @@ function FeaturedGames({
                             <img src={game.image} alt={game.title} />
                             <span className="game-title">{game.title}</span>
 
-                            <div className="card-actions">
-                                <button onClick={() => toggleOwnedGame(game.id)}>
-                                    {game.isOwned ? "Remove" : "Add"}
-                                </button>
+                            <SignedIn>
+                                <div className="card-actions">
+                                    <button onClick={() => toggleOwnedGame(game.id)}>
+                                        {game.isOwned ? "Remove" : "Add"}
+                                    </button>
 
-                                <button
-                                    type="button"
-                                    className="review-button"
-                                    onClick={() => toggleReview(game.id)}
-                                >
-                                    {isOpen ? "Cancel" : "Write Review!"}
-                                </button>
-                            </div>
+                                    <button
+                                        type="button"
+                                        className="review-button"
+                                        onClick={() => toggleReview(game.id)}
+                                    >
+                                        {isOpen ? "Cancel" : "Write Review!"}
+                                    </button>
+                                </div>
+                            </SignedIn>
 
                             {isOpen && (
                                 <ReviewForm

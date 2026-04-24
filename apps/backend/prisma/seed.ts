@@ -1,24 +1,18 @@
 import { PrismaClient } from "@prisma/client";
-import { gameSeedData, profileSeedData } from "./seedData";
+import { gameSeedData } from "./seedData";
 
 const prisma = new PrismaClient();
 
 async function main() {
     await prisma.review.deleteMany();
-    await prisma.userProfile.deleteMany();
     await prisma.game.deleteMany();
-
-    const createdProfiles = await prisma.userProfile.createMany({
-        data: profileSeedData,
-        skipDuplicates: true
-    });
+    await prisma.userProfile.deleteMany();
 
     const createdGames = await prisma.game.createMany({
         data: gameSeedData,
-        skipDuplicates: true
+        skipDuplicates: true,
     });
 
-    console.log(`CREATED PROFILES: ${createdProfiles.count}`);
     console.log(`CREATED GAMES: ${createdGames.count}`);
 }
 

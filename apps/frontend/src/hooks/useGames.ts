@@ -12,6 +12,7 @@
 import { useEffect, useState } from "react";
 import * as GameService from "../services/gameService";
 import type { Game } from "@shared/types/game";
+import { useAuth } from "@clerk/clerk-react";
 
 export function useGames(
     dependencies: unknown[] = [],
@@ -20,6 +21,7 @@ export function useGames(
     const [games, setGames] = useState<Game[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [errors, setErrors] = useState<string[]>([]);
+    const { getToken } = useAuth();
 
     async function fetchAll() {
         try {
@@ -38,7 +40,13 @@ export function useGames(
     }
 
     async function toggleOwnedGame(gameId: number) {
-        await GameService.toggleOwnedGame(gameId);
+        const token = await getToken();
+
+        if (!token) {
+            throw new Error("User is not signed in.");
+        }
+
+        await GameService.toggleOwnedGame(gameId, token);
         await fetchAll();
     }
 

@@ -65,11 +65,14 @@ export async function searchGames(
     };
 }
 
-export async function toggleOwnedGame(gameId: number): Promise<Game> {
+export async function toggleOwnedGame(gameId: number, token: string): Promise<Game> {
     const toggleResponse: Response = await fetch(
         `${BASE_URL}${GAME_ENDPOINT}/${gameId}/toggle-owned`,
         {
-            method: "PATCH"
+            method: "PATCH",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
         }
     );
 
