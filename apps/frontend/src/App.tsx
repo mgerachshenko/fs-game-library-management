@@ -51,7 +51,7 @@ function AppContent() {
 
 export default function App() {
     return (
-        <ProfileProvider userId="u1">
+        <ProfileProvider>
             <AppContent />
         </ProfileProvider>
     );

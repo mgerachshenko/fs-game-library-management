@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import type { Game } from "@shared/types/game";
 import { generalInputService } from "../../../../services/inputService";
 import { createReview, deleteReview } from "../../../../services/reviewService";
-import { SignedIn, SignedOut, SignInButton, useAuth } from "@clerk/clerk-react";
+import { SignedIn } from "@clerk/clerk-react";
 
 type Review = {
     id: number;
