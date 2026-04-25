@@ -2,6 +2,7 @@ import prisma from "../../../../prisma/client";
 
 export const createUserProfile = async (data: {
     id: string;
+    clerkId: string;
     name: string;
     displayName: string;
     bio?: string;
